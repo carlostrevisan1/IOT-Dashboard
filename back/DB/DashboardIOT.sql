@@ -1,5 +1,5 @@
 CREATE TABLE `user` (
-  `id` UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(40),
   `email` VARCHAR(60),
   `passw` VARCHAR(100),
@@ -7,17 +7,17 @@ CREATE TABLE `user` (
 );
 
 CREATE TABLE `device` (
-  `id` UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(40),
   `desc` TEXT,
   `ip_address` VARCHAR(25),
   `port` VARCHAR(5),
   `colour` VARCHAR(15),
-  `user_id` UNSIGNED
+  `user_id` INTEGER UNSIGNED
 );
 
 CREATE TABLE `feature` (
-  `id` UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(50),
   `topic` VARCHAR(50),
   `type` INTEGER,
@@ -28,7 +28,7 @@ CREATE TABLE `feature` (
 CREATE TABLE `data` (
   `time` DATETIME,
   `value` FLOAT,
-  `feat_id` UNSIGNED
+  `feat_id` INTEGER UNSIGNED
 );
 
 ALTER TABLE `feature` ADD FOREIGN KEY (`device_id`) REFERENCES `device` (`id`);
