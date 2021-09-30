@@ -26,11 +26,8 @@ export default function Demo(){
 
   return (
     <>
-      <Switch onChange={changeMode} /> Change Mode
-      <Divider type="vertical" />
-      <Switch onChange={changeTheme} /> Change Style
-      <br />
-      <br />
+      
+      
       <Menu
         style={{ width: 256 }}
         defaultSelectedKeys={['1']}
