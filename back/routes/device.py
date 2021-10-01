@@ -30,12 +30,12 @@ def get_device_route():
 def update_device_route():
     device_id = int(request.form('device_id'))
     name = request.form('name')
-    email = request.form('email')
-    passw = request.form('passw')
+    desc = request.form('desc')
+    ip = request.form('ip')
+    port = request.form('port')
     colour = request.form('colour')
-    if not passw:
-        passw = None
-    return update_device(device_id, name, email, passw, colour)
+    
+    return update_device(device_id, name, desc, ip, port, colour)
 
 @app.route('/delete_device', methods=["DELETE"])
 def delete_device_route():
