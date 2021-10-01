@@ -1,13 +1,15 @@
 import React from 'react';
-import { Divider, Menu, Switch } from 'antd';
+import { Image, Menu } from 'antd';
 import {
-  MailOutlined,
-  CalendarOutlined,
+  RobotFilled,
   AppstoreOutlined,
   SettingOutlined,
-  LinkOutlined,
+  LoginOutlined
 } from '@ant-design/icons';
 import SubMenu from 'antd/lib/menu/SubMenu';
+import { Header } from 'antd/lib/layout/layout';
+import logo from "./ic_launcher.png"
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -15,6 +17,7 @@ import SubMenu from 'antd/lib/menu/SubMenu';
 export default function Demo(){
   const [mode, setMode] = React.useState('inline');
   const [theme, setTheme] = React.useState('light');
+  let hist = useHistory();
 
   const changeMode = (value: boolean) => {
     setMode(value ? 'vertical' : 'inline');
@@ -25,42 +28,37 @@ export default function Demo(){
   };
 
   return (
-    <>
-      
-      
+    <div>
+      <Image  src={logo} preview={false} style={{borderWidth: 1, borderRadius: 80}}/>
+      <Header>
+        IOT - DASHBOARD
+      </Header>
       <Menu
         style={{ width: 256 }}
         defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
+        // defaultOpenKeys={['sub1']}
         mode={'vertical'}
         theme={'dark'}
       >
-        <Menu.Item key="1" icon={<MailOutlined />}>
-          Navigation One
+        <Menu.Item key="1" icon={<AppstoreOutlined />} >
+          Dashboard
         </Menu.Item>
-        <Menu.Item key="2" icon={<CalendarOutlined />}>
-          Navigation Two
+        <Menu.Item key="2" icon={<RobotFilled />}>
+          New Device
         </Menu.Item>
-        <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Navigation Two">
+        <SubMenu key="sub1" icon={<SettingOutlined />} title="Settings">
           <Menu.Item key="3">Option 3</Menu.Item>
           <Menu.Item key="4">Option 4</Menu.Item>
-          <SubMenu key="sub1-2" title="Submenu">
+          {/* <SubMenu key="sub1-2" title="Submenu">
             <Menu.Item key="5">Option 5</Menu.Item>
             <Menu.Item key="6">Option 6</Menu.Item>
-          </SubMenu>
+          </SubMenu> */}
         </SubMenu>
-        <SubMenu key="sub2" icon={<SettingOutlined />} title="Navigation Three">
-          <Menu.Item key="7">Option 7</Menu.Item>
-          <Menu.Item key="8">Option 8</Menu.Item>
-          <Menu.Item key="9">Option 9</Menu.Item>
-          <Menu.Item key="10">Option 10</Menu.Item>
-        </SubMenu>
-        <Menu.Item key="link" icon={<LinkOutlined />}>
-          <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-            Ant Design
-          </a>
+        
+        <Menu.Item key="link" icon={<LoginOutlined/>} onClick={hist.goBack}>
+          Log Out
         </Menu.Item>
       </Menu>
-    </>
+    </div>
   );
 };

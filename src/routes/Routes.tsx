@@ -15,9 +15,9 @@ export default function Routes() {
         <Router history={history}>
             <Switch>
                 <Route path="/" exact component={App} />
-                <div>
-                  <Menu/>
-                  <Route path="/Dashboard" exact component={Dashboard} />
+                <div style={{flexDirection: "row", display: 'flex'}}>
+                    <Menu/>
+                    <Route path="/Dashboard" exact component={Dashboard} />
                 </div>
                 
             </Switch>

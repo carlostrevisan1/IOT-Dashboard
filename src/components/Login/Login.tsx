@@ -50,7 +50,6 @@ export const Login = ({
           {
             required: false,
             message: 'Please input your password!',
-
           },
         ]}
       >
