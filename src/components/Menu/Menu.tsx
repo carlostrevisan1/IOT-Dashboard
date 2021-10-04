@@ -1,5 +1,5 @@
-import React from 'react';
-import { Image, Menu } from 'antd';
+import React, { useState } from 'react';
+import { Image, Menu, Typography } from 'antd';
 import {
   RobotFilled,
   AppstoreOutlined,
@@ -10,22 +10,27 @@ import SubMenu from 'antd/lib/menu/SubMenu';
 import { Header } from 'antd/lib/layout/layout';
 import logo from "./ic_launcher.png"
 import { useHistory } from 'react-router-dom';
+import DeviceModal from '../DeviceModal/DeviceModal';
+import { DeviceSchema } from '../../constants/device';
+
+type CardsSchema = {
+  deviceTitle: string,
+}
 
 
+type Props ={
+  handleSaveDevice: (newDevice: DeviceSchema) => void;
+}
 
-
-export default function Demo(){
-  const [mode, setMode] = React.useState('inline');
-  const [theme, setTheme] = React.useState('light');
+export default function LateralMenu({handleSaveDevice} : Props){
+  
+  const [showDeviceModal, setShowDeviceModal] = useState(false)
   let hist = useHistory();
 
-  const changeMode = (value: boolean) => {
-    setMode(value ? 'vertical' : 'inline');
-  };
-
-  const changeTheme = (value: boolean) => {
-    setTheme(value ? 'dark' : 'light');
-  };
+  
+  const handleCloseDeviceModal = () => {
+    setShowDeviceModal(false);
+  }
 
   return (
     <div>
@@ -43,9 +48,11 @@ export default function Demo(){
         <Menu.Item key="1" icon={<AppstoreOutlined />} >
           Dashboard
         </Menu.Item>
-        <Menu.Item key="2" icon={<RobotFilled />}>
+
+        <Menu.Item key="2" icon={<RobotFilled />} onClick={() => setShowDeviceModal(true)}>
           New Device
         </Menu.Item>
+
         <SubMenu key="sub1" icon={<SettingOutlined />} title="Settings">
           <Menu.Item key="3">Option 3</Menu.Item>
           <Menu.Item key="4">Option 4</Menu.Item>
@@ -58,7 +65,13 @@ export default function Demo(){
         <Menu.Item key="link" icon={<LoginOutlined/>} onClick={hist.goBack}>
           Log Out
         </Menu.Item>
+
       </Menu>
+
+      <DeviceModal 
+        visible={showDeviceModal} 
+        handleClose={handleCloseDeviceModal}
+        handleSave={handleSaveDevice}/>
     </div>
   );
 };
