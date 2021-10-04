@@ -22,7 +22,7 @@ CREATE TABLE `feature` (
   `topic` VARCHAR(50),
   `type` INTEGER,
   `value` VARCHAR(100),
-  `device_id` INTEGER
+  `device_id` INTEGER UNSIGNED
 );
 
 CREATE TABLE `data` (

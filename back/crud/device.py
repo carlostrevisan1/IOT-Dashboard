@@ -9,8 +9,8 @@ def get_device(device_id: int or None=None):
     else:
         return select_all_from_condition("device", condition=f"device.id == {device_id}")
 
-def update_device(device_id: int, name: str, desc: str, ip: str, port: str, colour: str, user_id: int):
-    return update_where_condition("device", [name, desc, ip, port, colour, user_id], columns=["name", "desc", "ip", "port", "colour", "user_id"],
+def update_device(device_id: int, name: str, desc: str, ip: str, port: str, colour: str):
+    return update_where_condition("device", [name, desc, ip, port, colour], columns=["name", "desc", "ip", "port", "colour"],
                                   condition=f"device.id == {device_id}")
 
 def delete_device(device_id: int):
