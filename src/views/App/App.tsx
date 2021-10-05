@@ -1,23 +1,36 @@
-import { Button } from 'antd';
+import { Button, notification } from 'antd';
 import React, { useState } from 'react';
 import { Redirect, useHistory } from "react-router-dom";
 import { Login } from '../../components/Login/Login';
 import SignUpModal from '../../components/SignUpModal/SignUpModal';
+import { UserController } from '../../controllers/user.controller';
 import './App.css';
 import logo from './logo.svg'
 
 type LoginObj = {
   password: string,
-  username: string,
+  email: string,
 }
 
 function App() {
   let hist = useHistory();
   const [showModal, setShowModal] = useState(false)
   
-  const handleLogin = (values: LoginObj) => {
-    console.log(values)
-    hist.push('Dashboard')
+  const handleLogin = async (values: LoginObj) => {
+    
+    const result = await UserController.userLogin(values);
+
+    if(true){
+
+      hist.push('Dashboard')
+    }
+    else {
+      notification.open({
+        message: "Login Inválido",
+        description: "Por favor, tente novamente.",
+        style:{backgroundColor: "#670000"},
+      })
+    }
   }
 
   const handleShowSignUpModal = () => {

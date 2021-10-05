@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React from 'react';
-import { DeviceSchema } from '../../constants/device';
+import { DeviceItemsSchema } from '../../constants/device';
 import FeaturesEditForm from '../FeaturesEditForm/FeaturesEditForm';
 
 const layout = {

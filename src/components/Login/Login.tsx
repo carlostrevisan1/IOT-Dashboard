@@ -4,7 +4,7 @@ import { Form, Input, Button, Checkbox } from 'antd';
 
 type LoginObj = {
   password: string,
-  username: string,
+  email: string,
 }
 
 type Props = {

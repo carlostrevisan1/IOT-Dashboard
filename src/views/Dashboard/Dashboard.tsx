@@ -3,25 +3,22 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import LateralMenu from '../../components/Menu/Menu';
 import StandardCard from '../../components/StandardCard/StandardCard';
-import { DeviceSchema } from '../../constants/device';
+import { DeviceItemsSchema, DevicesSchema } from '../../constants/device';
 import { featuresTypeEnums } from '../../constants/featureTypes';
 import './styles.css'
 
 
 
-let CardMOCK : DeviceSchema[]= [
+let CardMOCK : DeviceItemsSchema[]= [
   {
-    broker: {
-      ip: "1", 
-      port: "1",
-    },
-    device: {
-      id: 1,
-      user_id: 0,
-      name: "Fita led- quarto campo casa", 
-      description: "1", 
-      color: "1",
-    },
+    
+    ip_address: "1", 
+    port: "1",
+    id: 1,
+    user_id: 0,
+    name: "Fita led- quarto campo casa", 
+    desc: "1", 
+    colour: "1",
     features:[{
       id: 0,
       name: "BotaoLigar",
@@ -55,35 +52,7 @@ let CardMOCK : DeviceSchema[]= [
       device_id: 1,
     }]
   },
-  {
-    broker: {
-      ip: "1", 
-      port: "1",
-    },
-    device: {
-      id: 1,
-      user_id: 0,
-      name: "Fita led- quarto campo casa", 
-      description: "1", 
-      color: "1",
-    },
-    features:[{
-      id: 0,
-      name: "BotaoLigar",
-      topic: "Teste",
-      type: featuresTypeEnums.slider,
-      value: "liga ai",
-      device_id: 1,
-    },
-    {
-      id: 1,
-      name: "BotaoLigar",
-      topic: "Teste",
-      type: featuresTypeEnums.button,
-      value: "liga ai",
-      device_id: 1,
-    }]
-  },
+ 
   
   
 ]
@@ -118,7 +87,7 @@ let CardMOCK : DeviceSchema[]= [
 export default function Dashboard() {
   let hist = useHistory();
   
-  const [cards, setCards] = useState<DeviceSchema[]>(CardMOCK);
+  const [cards, setCards] = useState<DeviceItemsSchema[]>(CardMOCK);
 
   function loadCards(){
     // setCards(CardMOCK2);
@@ -127,7 +96,7 @@ export default function Dashboard() {
     // }, 1000)
   }
 
-  const handleSaveDevice = (newDevice: DeviceSchema) => {
+  const handleSaveDevice = (newDevice: DeviceItemsSchema) => {
     setCards([...cards, newDevice]);
   }
   
@@ -143,7 +112,7 @@ export default function Dashboard() {
       <div className="dashboard"  >
       
       {cards?.map(x => {
-          return <StandardCard deviceTitle={x.device.name} features={x.features}  key={x.broker.ip}/>
+          return <StandardCard deviceTitle={x.name} features={x.features}  key={x.ip_address}/>
         })}
 
       {/* <List

@@ -11,7 +11,7 @@ import { Header } from 'antd/lib/layout/layout';
 import logo from "./ic_launcher.png"
 import { useHistory } from 'react-router-dom';
 import DeviceModal from '../DeviceModal/DeviceModal';
-import { DeviceSchema } from '../../constants/device';
+import { DeviceItemsSchema } from '../../constants/device';
 
 type CardsSchema = {
   deviceTitle: string,
@@ -19,7 +19,7 @@ type CardsSchema = {
 
 
 type Props ={
-  handleSaveDevice: (newDevice: DeviceSchema) => void;
+  handleSaveDevice: (newDevice: DeviceItemsSchema) => void;
 }
 
 export default function LateralMenu({handleSaveDevice} : Props){
