@@ -2,25 +2,24 @@ import os
 import sys
 from pathlib import Path
 
-from back.crud.data import delete_data
-sys.path.append(os.path.abspath(Path(os.getcwd()) / ".." ))
+sys.path.append(os.path.abspath(Path(os.getcwd()) / ".."))
 import datetime
 from flask import request
-from app import app
+from . import data
 from crud.data import insert_data, get_data, delete_data
 
-@app.route('/insert_data', methods=["POST"])
+@data.route('/insert_data', methods=["POST"])
 def insert_data_route():
-    time = datetime.datetime.strptime(request.form('time'), "%Y-%m-%d %H:%M:%S")
-    value = request.form('value')
-    feat_id = request.form('feat_id')
+    time = datetime.datetime.strptime(request.form['time'], "%Y-%m-%d %H:%M:%S")
+    value = request.form['value']
+    feat_id = request.form['feat_id']
     return insert_data(time, value, feat_id)
 
-@app.route('/get_data', methods=["GET"])
+@data.route('/get_data', methods=["GET"])
 def get_data_route():
-    feat_id = request.form('feat_id')
-    start = request.form('start')
-    end = request.form('end')
+    feat_id = request.args['feat_id']
+    start = request.args['start']
+    end = request.args['end']
     if start:
         start = datetime.datetime(start)
     else:
@@ -32,11 +31,11 @@ def get_data_route():
 
     return get_data(feat_id, start, end)
 
-@app.route('/delete_data', methods=["DELETE"])
+@data.route('/delete_data', methods=["DELETE"])
 def delete_data_route():
-    feat_id = request.form('feat_id')
-    start = request.form('start')
-    end = request.form('end')
+    feat_id = request.form['feat_id']
+    start = request.form['start']
+    end = request.form['end']
     if feat_id:
         feat_id = int(feat_id)
     else:

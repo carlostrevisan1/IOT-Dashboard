@@ -1,4 +1,4 @@
-from generic_crud import select_all_from_condition, insert_into, update_where_condition, delete_from_condition, load_db
+from crud.generic_crud import select_all_from_condition, insert_into, update_where_condition, delete_from_condition, load_db
 
 def create_device(name: str, desc: str, ip: str, port: str, colour: str, user_id: int):
     return insert_into("device", [name, desc, ip, port, colour, user_id], columns=["name", "desc", "ip", "port", "colour", "user_id"])

@@ -1,9 +1,5 @@
-from flask import Flask
+from app import app
+from crud.generic_crud import load_db
 
-app = Flask(__name__)
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
-app.run("0.0.0.0", 5000)
+load_db("iot", "iothinks")
+app.run("0.0.0.0", 5000, debug=True)

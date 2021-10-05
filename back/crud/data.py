@@ -1,5 +1,5 @@
 import datetime
-from generic_crud import select_all_from_condition, select_from_condition, insert_into, delete_from_condition, load_db
+from crud.generic_crud import select_all_from_condition, select_from_condition, insert_into, delete_from_condition, load_db
 
 def insert_data(feat_id: int, time: datetime.datetime, value: float):
     insert_into("data", [time, value, feat_id], columns=["time", "value", "feat_id"])
