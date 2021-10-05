@@ -1,4 +1,5 @@
 from passlib.hash import sha256_crypt
+from back.app import device
 from crud.generic_crud import select_all_from_condition, select_from_condition, insert_into, update_where_condition, delete_from_condition, load_db
 
 def create_user(name: str, email: str, passw: str, colour: str):
@@ -30,6 +31,13 @@ def verify_passw(user_id: int, passw: str):
         return sha256_crypt.verify(passw, hashed_passw)
     else:
         return False
+
+def get_user_info(user_id: int):
+    devices = select_all_from_condition("device", condition=f"device.user_id = {user_id}")
+    for d in devices:
+        d['features'] = select_all_from_condition("feature", condition="feature.device_id")
+
+    return devices
 
 if __name__ == "__main__":
     load_db("iot", "iothinks")

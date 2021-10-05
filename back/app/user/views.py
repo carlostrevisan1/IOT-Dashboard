@@ -40,3 +40,9 @@ def delete_user_route():
     user_id = int(request.form['user_id'])
 
     return jsonify(delete_user(user_id))
+
+@user.route('/user_info', methods=["GET"])
+def user_info_route():
+    user_id = int(request.args['user_id'])
+
+    return jsonify(user_info(user_id))

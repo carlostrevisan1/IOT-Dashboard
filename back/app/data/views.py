@@ -10,16 +10,16 @@ from crud.data import insert_data, get_data, delete_data
 
 @data.route('/insert_data', methods=["POST"])
 def insert_data_route():
-    time = datetime.datetime.strptime(request.form('time'), "%Y-%m-%d %H:%M:%S")
-    value = request.form('value')
-    feat_id = request.form('feat_id')
+    time = datetime.datetime.strptime(request.form['time'], "%Y-%m-%d %H:%M:%S")
+    value = request.form['value']
+    feat_id = request.form['feat_id']
     return insert_data(time, value, feat_id)
 
 @data.route('/get_data', methods=["GET"])
 def get_data_route():
-    feat_id = request.form('feat_id')
-    start = request.form('start')
-    end = request.form('end')
+    feat_id = request.args['feat_id']
+    start = request.args['start']
+    end = request.args['end']
     if start:
         start = datetime.datetime(start)
     else:
@@ -33,9 +33,9 @@ def get_data_route():
 
 @data.route('/delete_data', methods=["DELETE"])
 def delete_data_route():
-    feat_id = request.form('feat_id')
-    start = request.form('start')
-    end = request.form('end')
+    feat_id = request.form['feat_id']
+    start = request.form['start']
+    end = request.form['end']
     if feat_id:
         feat_id = int(feat_id)
     else:

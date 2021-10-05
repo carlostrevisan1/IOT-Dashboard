@@ -8,17 +8,17 @@ from crud.feature import get_feature, create_feature, update_feature, delete_fea
 
 @feature.route('/create_feature', methods=["POST"])
 def create_feature_route():
-    name = request.form('name')
-    topic = request.form('topic')
-    feat_type = request.form('feat_type')
-    port = request.form('port')
-    value = request.form('value')
-    device_id = int(request.form('device_id'))
+    name = request.form['name']
+    topic = request.form['topic']
+    feat_type = request.form['feat_type']
+    port = request.form['port']
+    value = request.form['value']
+    device_id = int(request.form['device_id'])
     return create_feature(name, topic, feat_type, port, value, device_id)
 
 @feature.route('/get_feature', methods=["GET"])
 def get_feature_route():
-    feature_id = request.form('feature_id')
+    feature_id = request.args['feature_id']
     if feature_id:
         feature_id = int(feature_id)
     else:
@@ -28,17 +28,17 @@ def get_feature_route():
 
 @feature.route('/update_feature', methods=["PUT"])
 def update_feature_route():
-    feature_id = int(request.form('feature_id'))
-    name = request.form('name')
-    topic = request.form('topic')
-    feat_type = request.form('feat_type')
-    port = request.form('port')
-    value = request.form('value')
+    feature_id = int(request.form['feature_id'])
+    name = request.form['name']
+    topic = request.form['topic']
+    feat_type = request.form['feat_type']
+    port = request.form['port']
+    value = request.form['value']
     
     return update_feature(feature_id, name, topic, feat_type, port, value)
 
 @feature.route('/delete_feature', methods=["DELETE"])
 def delete_feature_route():
-    feature_id = int(request.form('feature_id'))
+    feature_id = int(request.form['feature_id'])
 
     return delete_feature(feature_id)
