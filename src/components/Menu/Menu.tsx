@@ -33,7 +33,7 @@ export default function LateralMenu({handleSaveDevice} : Props){
   }
 
   return (
-    <div>
+    <div style={{backgroundColor: "#1f1f1f"}}>
       <Image  src={logo} preview={false} style={{borderWidth: 1, borderRadius: 80}}/>
       <Header>
         IOT - DASHBOARD
