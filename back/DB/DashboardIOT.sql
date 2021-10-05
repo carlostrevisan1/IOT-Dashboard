@@ -1,7 +1,7 @@
 CREATE TABLE `user` (
   `id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(40),
-  `email` VARCHAR(60),
+  `email` VARCHAR(60) UNIQUE,
   `passw` VARCHAR(100),
   `colour` VARCHAR(15)
 );

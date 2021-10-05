@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.append(os.path.abspath(Path(os.getcwd()) / ".."))
 import datetime
-from flask import request
+from flask import request, jsonify
 from . import data
 from crud.data import insert_data, get_data, delete_data
 
@@ -13,7 +13,7 @@ def insert_data_route():
     time = datetime.datetime.strptime(request.form['time'], "%Y-%m-%d %H:%M:%S")
     value = request.form['value']
     feat_id = request.form['feat_id']
-    return insert_data(time, value, feat_id)
+    return jsonify(insert_data(time, value, feat_id))
 
 @data.route('/get_data', methods=["GET"])
 def get_data_route():
@@ -29,7 +29,7 @@ def get_data_route():
     else:
         end = None
 
-    return get_data(feat_id, start, end)
+    return jsonify(get_data(feat_id, start, end))
 
 @data.route('/delete_data', methods=["DELETE"])
 def delete_data_route():
@@ -49,4 +49,4 @@ def delete_data_route():
     else:
         end = None
 
-    return delete_data(feat_id, start, end)
+    return jsonify(delete_data(feat_id, start, end))
