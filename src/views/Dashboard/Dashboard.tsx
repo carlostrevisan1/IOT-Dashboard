@@ -4,7 +4,9 @@ import { useHistory } from "react-router-dom";
 import LateralMenu from '../../components/Menu/Menu';
 import StandardCard from '../../components/StandardCard/StandardCard';
 import { DeviceSchema } from '../../constants/device';
+import { featuresTypeEnums } from '../../constants/featureTypes';
 import './styles.css'
+
 
 
 let CardMOCK : DeviceSchema[]= [
@@ -14,22 +16,44 @@ let CardMOCK : DeviceSchema[]= [
       port: "1",
     },
     device: {
-      name: "Fita led- quarto campo casa florida", 
+      id: 1,
+      user_id: 0,
+      name: "Fita led- quarto campo casa", 
       description: "1", 
       color: "1",
-    }
-  },
-  {
-    broker: {
-      ip: "2", 
-      port: "2",
     },
-    device: {
-      name: "2", 
-      description: "2", 
-      color: "2",
-    }
-    
+    features:[{
+      id: 0,
+      name: "BotaoLigar",
+      topic: "Teste",
+      type: featuresTypeEnums.slider,
+      value: "liga ai",
+      device_id: 1,
+    },
+    {
+      id: 0,
+      name: "BotaoLigar",
+      topic: "Teste",
+      type: featuresTypeEnums.text,
+      value: "liga ai",
+      device_id: 1,
+    },
+    {
+      id: 0,
+      name: "BotaoLigar",
+      topic: "Teste",
+      type: featuresTypeEnums.switch,
+      value: "liga ai",
+      device_id: 1,
+    },
+    {
+      id: 1,
+      name: "BotaoLigar",
+      topic: "Teste",
+      type: featuresTypeEnums.button,
+      value: "liga ai",
+      device_id: 1,
+    }]
   },
   {
     broker: {
@@ -37,53 +61,59 @@ let CardMOCK : DeviceSchema[]= [
       port: "1",
     },
     device: {
-      name: "1", 
+      id: 1,
+      user_id: 0,
+      name: "Fita led- quarto campo casa", 
       description: "1", 
       color: "1",
-    }
-  },
-  {
-    broker: {
-      ip: "2", 
-      port: "2",
     },
-    device: {
-      name: "2", 
-      description: "2", 
-      color: "2",
-    }
-    
+    features:[{
+      id: 0,
+      name: "BotaoLigar",
+      topic: "Teste",
+      type: featuresTypeEnums.slider,
+      value: "liga ai",
+      device_id: 1,
+    },
+    {
+      id: 1,
+      name: "BotaoLigar",
+      topic: "Teste",
+      type: featuresTypeEnums.button,
+      value: "liga ai",
+      device_id: 1,
+    }]
   },
   
   
 ]
 
-let CardMOCK2 : DeviceSchema[]= [
-  {
-    broker: {
-      ip: "3", 
-      port: "3",
-    },
-    device: {
-      name: "3", 
-      description: "3", 
-      color: "3",
-    }
-  },
-  {
-    broker: {
-      ip: "4", 
-      port: "4",
-    },
-    device: {
-      name: "4", 
-      description: "4", 
-      color: "4",
-    }
+// let CardMOCK2 : DeviceSchema[]= [
+//   {
+//     broker: {
+//       ip: "3", 
+//       port: "3",
+//     },
+//     device: {
+//       name: "3", 
+//       description: "3", 
+//       color: "3",
+//     }
+//   },
+//   {
+//     broker: {
+//       ip: "4", 
+//       port: "4",
+//     },
+//     device: {
+//       name: "4", 
+//       description: "4", 
+//       color: "4",
+//     }
     
-  },
+//   },
   
-]
+// ]
 
 export default function Dashboard() {
   let hist = useHistory();
@@ -106,22 +136,27 @@ export default function Dashboard() {
   }, [cards])
 
   return (
-    <div style={{flexDirection: "row", display: 'flex'}}>
+    <div style={{flexDirection: "row", display: 'flex', alignItems: "stretch", height: "100%"}}>
 
       <LateralMenu handleSaveDevice={handleSaveDevice}/>
 
-      <div className="dashboard" >
+      <div className="dashboard"  >
+      
       {cards?.map(x => {
-          return <StandardCard deviceTitle={x.device.name} key={x.broker.ip}/>
+          return <StandardCard deviceTitle={x.device.name} features={x.features}  key={x.broker.ip}/>
         })}
+
       {/* <List
-        grid={{ gutter: 25, column: 4 }}
+        grid={{ gutter: 16, column: 4 }}
+        style={{width: "calc(100% - 10px)"}}
         itemLayout={ 'horizontal'}
         dataSource={cards}
-        split
         renderItem={item => (
+
           <List.Item style={{marginLeft: 5}}>
-            <StandardCard deviceTitle={item.device.name} key={item.broker.ip}/>
+
+            <StandardCard features={item.features} deviceTitle={item.device.name} key={item.broker.ip}/>
+
           </List.Item>
       )}
       /> */}

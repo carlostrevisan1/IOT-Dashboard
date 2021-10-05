@@ -15,8 +15,6 @@ export default function Routes() {
             <Switch>
                 <Route path="/" exact component={App} />
                 <Route path="/Dashboard" exact component={Dashboard} />
-            
-                
             </Switch>
         </Router>
     );

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, useHistory } from 'react-router-dom'
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Routes from './routes/Routes';
+import './index.css';
 
 
 ReactDOM.render(

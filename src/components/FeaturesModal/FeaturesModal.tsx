@@ -1,19 +1,8 @@
-import React from 'react';
-import { Button, Form, Image, Input, Menu } from 'antd';
-import {
-  RobotFilled,
-  AppstoreOutlined,
-  SettingOutlined,
-  LoginOutlined
-} from '@ant-design/icons';
-import SubMenu from 'antd/lib/menu/SubMenu';
-import { Header } from 'antd/lib/layout/layout';
-import logo from "./ic_launcher.png"
-import { useHistory } from 'react-router-dom';
+import { Button } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
-import StandardInput from '../StandardInput/StandardInput';
-import NewDeviceForm from '../NewDeviceForm/NewDeviceForm';
+import React from 'react';
 import { DeviceSchema } from '../../constants/device';
+import FeaturesEditForm from '../FeaturesEditForm/FeaturesEditForm';
 
 const layout = {
   labelCol: {
@@ -24,24 +13,20 @@ const layout = {
   },
 };
 
-type CardsSchema = {
-  deviceTitle: string,
-}
-
 
 type Props = {
   visible: boolean;
   handleClose: () => void;
-  handleSave: (newDevice: DeviceSchema) => void;
+  handleSave: (newDevice: any) => void;
 }
 
-export default function DeviceModal(
+export default function FeaturesModal(
   { visible, 
     handleClose,
     handleSave } : Props){
       
 
-  function handleFinish(val: DeviceSchema){
+  function handleFinish(val: any){
     handleSave(val);
     handleClose();
   }
@@ -49,7 +34,7 @@ export default function DeviceModal(
   return (
     <div>
       <Modal 
-        title="New Device" 
+        title="Edit Features" 
         visible={visible} 
         onCancel={handleClose}
         destroyOnClose
@@ -63,7 +48,7 @@ export default function DeviceModal(
           </Button>,
         ]} >
 
-          <NewDeviceForm id="NewDeviceForm" onFinish={handleFinish}/>
+          <FeaturesEditForm id="NewDeviceForm" onFinish={handleFinish}/>
           
       </Modal>
     </div>

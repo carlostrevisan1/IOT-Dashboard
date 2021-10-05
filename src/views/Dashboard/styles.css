@@ -1,9 +1,11 @@
 .dashboard{
-  background-color: #282c34;
   display: flex;
   font-size: calc(10px + 2vmin);
   color: white;
   flex-direction: 'row';
   flex: 1;
-  max-width: max-content;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 5px 10px
 }

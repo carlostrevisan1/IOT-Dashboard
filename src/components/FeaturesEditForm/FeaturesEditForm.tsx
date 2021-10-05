@@ -1,5 +1,4 @@
-import { Button, Form, FormProps, Input } from 'antd';
-import Modal from 'antd/lib/modal/Modal';
+import { Button, Cascader, Form, FormProps, Input } from 'antd';
 import React from 'react';
 
 const layout = {
@@ -14,15 +13,15 @@ const layout = {
 type Props = FormProps &{
 }
 
-export default function NewDeviceForm({id, onFinish} : Props){
+export default function FeaturesEditForm({id, onFinish} : Props){
   
 
   return (
       <Form id={id} {...layout} labelAlign={"left"} name="nest-messages" onFinish={onFinish}>
 
         <Form.Item
-          name={['device', 'name']}
-          label="Name"
+          name={['type']}
+          label="Type"
           rules={[
             {
               required: true,
@@ -30,7 +29,10 @@ export default function NewDeviceForm({id, onFinish} : Props){
           ]}
         >
 
-          <Input />
+          <Cascader options={[{
+            value: 'zhejiang',
+            label: 'Zhejiang',
+          }]} onChange={()=>{}} placeholder="Please select" />
 
         </Form.Item>
 
