@@ -4,7 +4,7 @@ from pathlib import Path
 sys.path.append(os.path.abspath(Path(os.getcwd()) / ".."))
 from flask import json, request, jsonify
 from . import user
-from crud.user import get_user, create_user, update_user, delete_user, get_user_info, check_user_email
+from crud.user import get_user, create_user, update_user, delete_user, get_user_info, check_user_email, login
 
 @user.route('/create_user', methods=["POST"])
 def create_user_route():
@@ -52,3 +52,10 @@ def check_user_email_route():
     email = request.args['email']
 
     return jsonify(check_user_email(email))
+
+@user.route('/login', methods=["GET"])
+def login_route():
+    email = request.args['email']
+    passw = request.args['passw']
+
+    return jsonify(login(email, passw))
