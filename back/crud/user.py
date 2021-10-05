@@ -35,9 +35,16 @@ def verify_passw(user_id: int, passw: str):
 def get_user_info(user_id: int):
     devices = select_all_from_condition("device", condition=f"device.user_id = {user_id}")
     for d in devices:
-        d['features'] = select_all_from_condition("feature", condition="feature.device_id")
+        d['features'] = select_all_from_condition("feature", condition=f"feature.device_id = {d['id']}")
 
     return devices
+
+def check_user_email(email: str):
+    user_id = select_from_condition("user.id", condition=f"user.email = '{email}'")
+    if user_id:
+        return user_id[0]
+    else:
+        return False
 
 if __name__ == "__main__":
     load_db("iot", "iothinks")
