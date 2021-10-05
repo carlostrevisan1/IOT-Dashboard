@@ -1,12 +1,12 @@
 import os
 import sys
 from pathlib import Path
-sys.path.append(os.path.abspath(Path(os.getcwd()) / ".." ))
+sys.path.append(os.path.abspath(Path(os.getcwd()) / ".."))
 from flask import request
-from app import app
+from . import device
 from crud.device import get_device, create_device, update_device, delete_device
 
-@app.route('/create_device', methods=["POST"])
+@device.route('/create_device', methods=["POST"])
 def create_device_route():
     name = request.form('name')
     desc = request.form('desc')
@@ -16,7 +16,7 @@ def create_device_route():
     user_id = int(request.form('user_id'))
     return create_device(name, desc, ip, port, colour, user_id)
 
-@app.route('/get_device', methods=["GET"])
+@device.route('/get_device', methods=["GET"])
 def get_device_route():
     device_id = request.form('device_id')
     if device_id:
@@ -26,7 +26,7 @@ def get_device_route():
 
     return get_device(device_id)
 
-@app.route('/update_device', methods=["PUT"])
+@device.route('/update_device', methods=["PUT"])
 def update_device_route():
     device_id = int(request.form('device_id'))
     name = request.form('name')
@@ -37,7 +37,7 @@ def update_device_route():
     
     return update_device(device_id, name, desc, ip, port, colour)
 
-@app.route('/delete_device', methods=["DELETE"])
+@device.route('/delete_device', methods=["DELETE"])
 def delete_device_route():
     device_id = int(request.form('device_id'))
 

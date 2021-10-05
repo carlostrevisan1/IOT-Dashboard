@@ -42,7 +42,7 @@ export default function NewUserForm({id, onFinish} : Props){
               max: 60
             },
           ]}>
-          <Input.TextArea />
+          <Input />
         </Form.Item>
 
         <Form.Item
@@ -61,7 +61,7 @@ export default function NewUserForm({id, onFinish} : Props){
 
         <Form.Item 
           name={['user', 'colour']} 
-          label="Broker Ip"
+          label="Colour"
           rules={[
             {
               required: true,
