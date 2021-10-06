@@ -1,9 +1,11 @@
 from passlib.hash import sha256_crypt
-from back.app import device
+from matplotlib.colors import is_color_like
 from crud.generic_crud import select_all_from_condition, select_from_condition, insert_into, update_where_condition, delete_from_condition, load_db
 
 def create_user(name: str, email: str, passw: str, colour: str):
     hashed_passw = sha256_crypt.hash(passw)
+    if not is_color_like(colour):
+        colour = "#008282"
     return insert_into("user", [name, email, hashed_passw, colour], columns=["name", "email", "passw", "colour"])
 
 def get_user(user_id: int or None=None):
@@ -34,7 +36,7 @@ def check_user_email(email: str):
 def verify_passw(user_id: int, passw: str):
     hashed_passw = select_from_condition("user.passw", condition=f"user.id == {user_id}")
     if hashed_passw:
-        hashed_passw = hashed_passw[0]
+        hashed_passw = hashed_passw[0]['passw']
         return sha256_crypt.verify(passw, hashed_passw)
     else:
         return False
@@ -49,7 +51,7 @@ def get_user_info(user_id: int):
 def login(email: str, passw: str):
     user_id = check_user_email(email)
     if user_id:
-        if verify_passw(user_id['id']):
+        if verify_passw(user_id['id'], passw):
             return {'login_status': user_id['id'], 'devices': get_user_info(user_id['id'])}
         else:
             return {'login_status': -2}  # Invalid password
