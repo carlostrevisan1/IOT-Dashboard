@@ -1,6 +1,7 @@
 import { Button, Form, FormProps, Input } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React from 'react';
+import { NewUserSchema, UserSchema } from '../../constants/user';
 
 const layout = {
   labelCol: {
@@ -11,7 +12,9 @@ const layout = {
   },
 };
 
-type Props = FormProps &{
+type Props = {
+  id?: string;
+  onFinish: (values: NewUserSchema) => void;
 }
 
 export default function NewUserForm({id, onFinish} : Props){

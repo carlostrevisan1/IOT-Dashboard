@@ -1,6 +1,7 @@
 import { Button, Form, FormProps, Input } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React from 'react';
+import { DeviceItemsSchema, NewDeviceSchema } from '../../constants/device';
 
 const layout = {
   labelCol: {
@@ -11,17 +12,22 @@ const layout = {
   },
 };
 
-type Props = FormProps &{
+type Props = {
+  id: string;
+  onFinish: (val: NewDeviceSchema)=> void;
 }
 
 export default function NewDeviceForm({id, onFinish} : Props){
   
 
   return (
-      <Form id={id} {...layout} labelAlign={"left"} name="nest-messages" onFinish={onFinish}>
+      <Form id={id} {...layout} 
+      labelAlign={"left"} 
+      name="nest-messages" 
+      onFinish={onFinish}>
 
         <Form.Item
-          name={['device', 'name']}
+          name={['name']}
           label="Name"
           rules={[
             {
@@ -35,7 +41,7 @@ export default function NewDeviceForm({id, onFinish} : Props){
         </Form.Item>
 
         <Form.Item 
-          name={['device', 'description']} 
+          name={['desc']} 
           label="Description"
           rules={[
             {
@@ -49,7 +55,7 @@ export default function NewDeviceForm({id, onFinish} : Props){
         </Form.Item>
 
         <Form.Item
-          name={['device', 'color']}
+          name={['colour']}
           label="Color"
           rules={[
             {
@@ -64,7 +70,7 @@ export default function NewDeviceForm({id, onFinish} : Props){
         </Form.Item>
 
         <Form.Item 
-          name={['broker', 'ip']} 
+          name={['ip_address']} 
           label="Broker Ip"
           rules={[
             {
@@ -75,7 +81,7 @@ export default function NewDeviceForm({id, onFinish} : Props){
         </Form.Item>
 
         <Form.Item 
-          name={['broker', 'port']} 
+          name={['port']} 
           label="Port"
           rules={[
             {

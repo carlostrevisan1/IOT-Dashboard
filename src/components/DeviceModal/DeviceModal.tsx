@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 import Modal from 'antd/lib/modal/Modal';
 import StandardInput from '../StandardInput/StandardInput';
 import NewDeviceForm from '../NewDeviceForm/NewDeviceForm';
-import { DeviceItemsSchema, } from '../../constants/device';
+import { DeviceItemsSchema, NewDeviceSchema, } from '../../constants/device';
 
 const layout = {
   labelCol: {
@@ -24,15 +24,10 @@ const layout = {
   },
 };
 
-type CardsSchema = {
-  deviceTitle: string,
-}
-
-
 type Props = {
   visible: boolean;
   handleClose: () => void;
-  handleSave: (newDevice: DeviceItemsSchema) => void;
+  handleSave: (newDevice: NewDeviceSchema) => void;
 }
 
 export default function DeviceModal(
@@ -41,7 +36,7 @@ export default function DeviceModal(
     handleSave } : Props){
       
 
-  function handleFinish(val: DeviceItemsSchema){
+  function handleFinish(val: NewDeviceSchema){
     handleSave(val);
     handleClose();
   }

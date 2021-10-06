@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 import Modal from 'antd/lib/modal/Modal';
 import StandardInput from '../StandardInput/StandardInput';
 import NewUserForm from '../NewUserForm/NewUserForm';
-import { UserSchema } from '../../constants/user';
+import { NewUserSchema, UserSchema } from '../../constants/user';
 
 const layout = {
   labelCol: {
@@ -24,15 +24,11 @@ const layout = {
   },
 };
 
-type CardsSchema = {
-  userTitle: string,
-}
-
 
 type Props = {
   visible: boolean;
   handleClose: () => void;
-  handleSave: (newUser: UserSchema) => void;
+  handleSave: (newUser: NewUserSchema) => void;
 }
 
 export default function UserModal(
@@ -41,7 +37,7 @@ export default function UserModal(
     handleSave } : Props){
       
 
-  function handleFinish(val: UserSchema){
+  function handleFinish(val: NewUserSchema){
     handleSave(val);
     handleClose();
   }
