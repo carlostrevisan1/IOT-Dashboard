@@ -12,7 +12,6 @@ from crud.device import get_device, create_device, update_device, delete_device
 def create_device_route():
     try:
         args = request.get_json()
-        print(args)
         name = args['name']
         desc = args['desc']
         ip = args['ip_address']

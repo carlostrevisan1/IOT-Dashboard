@@ -19,8 +19,5 @@ def update_device(device_id: int, name: str, desc: str, ip: str, port: str, colo
 def delete_device(device_id: int):
     return delete_from_condition("device", condition=f"device.id == {device_id}")
 
-def get_user_devices(user_id: int):
-    return select_all_from_condition("device", condition=f"device.user_id == {user_id}")
-
 if __name__ == "__main__":
     load_db("iot", "iothinks")

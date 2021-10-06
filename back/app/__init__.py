@@ -3,12 +3,8 @@ from flask import Flask
 
 app = Flask(__name__)
 
-print("ENTROU AQUI")
-
 from app.data import data as data_bp
 app.register_blueprint(data_bp)
-
-print("PRINT ENTRE ELES")
 
 from app.device import device as device_bp
 app.register_blueprint(device_bp)

@@ -64,5 +64,4 @@ def check_user_email_route():
 def login_route():
     email = request.args['email']
     passw = request.args['passw']
-    print(email, passw)
     return jsonify(login(email, passw))
