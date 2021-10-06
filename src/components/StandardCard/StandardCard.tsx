@@ -16,9 +16,10 @@ import { cursorTo } from 'readline';
 type Props = {
   deviceTitle: string;
   features?: FeaturesSchema[];
+  colour: string;
 }
 
-export default function StandardCard({ deviceTitle, features }: Props){
+export default function StandardCard({ deviceTitle, features, colour }: Props){
 
   const [showEditModal, setShowEditModal] = useState(false)
   const [spinSettings, setSpin] = useState(false);
@@ -62,7 +63,7 @@ export default function StandardCard({ deviceTitle, features }: Props){
 
       <Card style={{ 
         borderRadius: 10, 
-        background: "linear-gradient(182deg, #177ddc 65px, #1f1f1f 66px)",
+        background: `linear-gradient(182deg, ${colour} 65px, #1f1f1f 66px)`,
         
         }} >
         

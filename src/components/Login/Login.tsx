@@ -3,7 +3,7 @@ import 'antd/dist/antd.dark.css';
 import { Form, Input, Button, Checkbox } from 'antd';
 
 type LoginObj = {
-  password: string,
+  passw: string,
   email: string,
 }
 
@@ -31,8 +31,8 @@ export const Login = ({
       autoComplete="off"
     >
       <Form.Item
-        label="Username"
-        name="username"
+        label="Email"
+        name="email"
         rules={[
           {
             required: false,
@@ -45,7 +45,7 @@ export const Login = ({
 
       <Form.Item
         label="Password"
-        name="password"
+        name="passw"
         rules={[
           {
             required: false,

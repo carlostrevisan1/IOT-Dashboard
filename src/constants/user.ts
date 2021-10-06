@@ -1,7 +1,10 @@
 import { DevicesSchema } from "./device"
 
+export type NewUserSchema = { 
+  user: UserSchema;
+}
+
 export type UserSchema = {
-  id: number,
   name: string, 
   email: string,
   passw: string,

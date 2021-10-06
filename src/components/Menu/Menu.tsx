@@ -11,25 +11,29 @@ import { Header } from 'antd/lib/layout/layout';
 import logo from "./ic_launcher.png"
 import { useHistory } from 'react-router-dom';
 import DeviceModal from '../DeviceModal/DeviceModal';
-import { DeviceItemsSchema } from '../../constants/device';
-
-type CardsSchema = {
-  deviceTitle: string,
-}
-
+import { DeviceItemsSchema, NewDeviceSchema } from '../../constants/device';
 
 type Props ={
-  handleSaveDevice: (newDevice: DeviceItemsSchema) => void;
+  handleSaveDevice: (newDevice: NewDeviceSchema) => void;
 }
 
 export default function LateralMenu({handleSaveDevice} : Props){
   
   const [showDeviceModal, setShowDeviceModal] = useState(false)
+  const [selectedMenu, setSelectedMenu] = useState(['1'])
+
   let hist = useHistory();
 
   
   const handleCloseDeviceModal = () => {
     setShowDeviceModal(false);
+    setSelectedMenu(['1']);
+
+  }
+
+  const handleNewDeviceClick = () => {
+    setShowDeviceModal(true);
+    setSelectedMenu(['2']);
   }
 
   return (
@@ -40,16 +44,15 @@ export default function LateralMenu({handleSaveDevice} : Props){
       </Header>
       <Menu
         style={{ width: 256 }}
-        defaultSelectedKeys={['1']}
-        // defaultOpenKeys={['sub1']}
         mode={'vertical'}
         theme={'dark'}
+        selectedKeys={selectedMenu}
       >
         <Menu.Item key="1" icon={<AppstoreOutlined />} >
           Dashboard
         </Menu.Item>
 
-        <Menu.Item key="2" icon={<RobotFilled />} onClick={() => setShowDeviceModal(true)}>
+        <Menu.Item key="2" icon={<RobotFilled />} onClick={handleNewDeviceClick}>
           New Device
         </Menu.Item>
 

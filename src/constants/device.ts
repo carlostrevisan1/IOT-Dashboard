@@ -1,3 +1,12 @@
+export type NewDeviceSchema = {
+  name: string, 
+  desc: string, 
+  colour: string,
+  user_id: number,
+  ip_address: string, 
+  port: string,
+}
+
 export type FeaturesSchema = {
   id: number,
   name: string,

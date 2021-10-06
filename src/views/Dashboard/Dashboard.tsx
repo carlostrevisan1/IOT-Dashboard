@@ -1,10 +1,12 @@
-import { List, Typography } from 'antd';
+import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import LateralMenu from '../../components/Menu/Menu';
 import StandardCard from '../../components/StandardCard/StandardCard';
-import { DeviceItemsSchema, DevicesSchema } from '../../constants/device';
+import { DeviceItemsSchema, DevicesSchema, NewDeviceSchema } from '../../constants/device';
 import { featuresTypeEnums } from '../../constants/featureTypes';
+import { UserFetched } from '../../constants/user';
+import { DeviceController } from '../../controllers/device.controller';
 import './styles.css'
 
 
@@ -84,25 +86,46 @@ let CardMOCK : DeviceItemsSchema[]= [
   
 // ]
 
-export default function Dashboard() {
-  let hist = useHistory();
-  
-  const [cards, setCards] = useState<DeviceItemsSchema[]>(CardMOCK);
+type locationParams = {
+  user: UserFetched
+}
 
-  function loadCards(){
-    // setCards(CardMOCK2);
-    // setTimeout(()=>{
-    //   console.log(cards)
-    // }, 1000)
+export default function Dashboard() {
+  let location = useLocation<locationParams>();
+  
+  const [user, setUser] = useState<UserFetched>(location.state.user);
+  const [cards, setCards] = useState<DeviceItemsSchema[]>();
+
+  async function loadCards(){
+    const result = await DeviceController.getDevices(user ? user.login_status : 0);
+    setCards(result)
   }
 
-  const handleSaveDevice = (newDevice: DeviceItemsSchema) => {
-    setCards([...cards, newDevice]);
+  const handleSaveDevice = async (newDevice: NewDeviceSchema) => {
+
+    const result = await DeviceController.saveDevice(newDevice, user ? user.login_status : 0)
+
+    //TODO CHECAR ESSA TIPAGEM DO RESULT
+    if(result){
+      notification.open({
+        message: "Device criado com sucesso!!",
+        description: "",
+        style:{backgroundColor: "#006700"},
+      })
+      loadCards();
+    }
+    else{
+      notification.open({
+        message: "Falha ao criar device!",
+        description: "Por favor, tente novamente.",
+        style:{backgroundColor: "#670000"},
+      })
+    }
   }
   
   useEffect(() => {
     loadCards();    
-  }, [cards])
+  }, [cards?.length])
 
   return (
     <div style={{flexDirection: "row", display: 'flex', alignItems: "stretch", height: "100%"}}>
@@ -112,23 +135,13 @@ export default function Dashboard() {
       <div className="dashboard"  >
       
       {cards?.map(x => {
-          return <StandardCard deviceTitle={x.name} features={x.features}  key={x.ip_address}/>
+          return <StandardCard 
+                  deviceTitle={x.name} 
+                  features={x.features}  
+                  key={x.ip_address}
+                  colour={x.colour}
+                  />
         })}
-
-      {/* <List
-        grid={{ gutter: 16, column: 4 }}
-        style={{width: "calc(100% - 10px)"}}
-        itemLayout={ 'horizontal'}
-        dataSource={cards}
-        renderItem={item => (
-
-          <List.Item style={{marginLeft: 5}}>
-
-            <StandardCard features={item.features} deviceTitle={item.device.name} key={item.broker.ip}/>
-
-          </List.Item>
-      )}
-      /> */}
       </div>
 
 
