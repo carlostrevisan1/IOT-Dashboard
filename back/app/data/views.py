@@ -10,43 +10,52 @@ from crud.data import insert_data, get_data, delete_data
 
 @data.route('/insert_data', methods=["POST"])
 def insert_data_route():
-    time = datetime.datetime.strptime(request.form['time'], "%Y-%m-%d %H:%M:%S")
-    value = request.form['value']
-    feat_id = request.form['feat_id']
-    return jsonify(insert_data(time, value, feat_id))
+    try:
+        time = datetime.datetime.strptime(request.form['time'], "%Y-%m-%d %H:%M:%S")
+        value = request.form['value']
+        feat_id = request.form['feat_id']
+        return jsonify(insert_data(time, value, feat_id))
+    except:
+        return jsonify(False)
 
 @data.route('/get_data', methods=["GET"])
 def get_data_route():
-    feat_id = request.args['feat_id']
-    start = request.args['start']
-    end = request.args['end']
-    if start:
-        start = datetime.datetime(start)
-    else:
-        start = None
-    if end:
-        end = datetime.datetime(end)
-    else:
-        end = None
+    try:
+        feat_id = request.args['feat_id']
+        start = request.args['start']
+        end = request.args['end']
+        if start:
+            start = datetime.datetime(start)
+        else:
+            start = None
+        if end:
+            end = datetime.datetime(end)
+        else:
+            end = None
 
-    return jsonify(get_data(feat_id, start, end))
+        return jsonify(get_data(feat_id, start, end))
+    except:
+        return jsonify(False)
 
 @data.route('/delete_data', methods=["DELETE"])
 def delete_data_route():
-    feat_id = request.form['feat_id']
-    start = request.form['start']
-    end = request.form['end']
-    if feat_id:
-        feat_id = int(feat_id)
-    else:
-        feat_id = None
-    if start:
-        start = datetime.datetime(start)
-    else:
-        start = None
-    if end:
-        end = datetime.datetime(end)
-    else:
-        end = None
+    try:
+        feat_id = request.form['feat_id']
+        start = request.form['start']
+        end = request.form['end']
+        if feat_id:
+            feat_id = int(feat_id)
+        else:
+            feat_id = None
+        if start:
+            start = datetime.datetime(start)
+        else:
+            start = None
+        if end:
+            end = datetime.datetime(end)
+        else:
+            end = None
 
-    return jsonify(delete_data(feat_id, start, end))
+        return jsonify(delete_data(feat_id, start, end))
+    except:
+        return jsonify(False)
