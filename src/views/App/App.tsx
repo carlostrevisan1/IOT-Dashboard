@@ -15,18 +15,18 @@ type LoginObj = {
 
 function App() {
   let hist = useHistory();
+
   const [showModal, setShowModal] = useState(false);
   
   const handleLogin = async (values: LoginObj) => {
     const result = await UserController.userLogin(values.email, values.passw);
 
     if(result.login_status){
-      console.log(result)
       hist.push('Dashboard', {user: result})
     }
     else {
       notification.open({
-        message: "Login Inválido",
+        message: result.error,
         description: "Por favor, tente novamente.",
         style:{backgroundColor: "#670000"},
       })
@@ -60,15 +60,19 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+
         <img src={logo} className="App-logo" alt="logo"/>
+
         <h1 id="title">
           IOT-Dashboard 
         </h1>
 
         <Login onSubmit={handleLogin}/>
+
         <Button onClick={handleShowSignUpModal}>Cadastre-se</Button>
 
       </header>
+
       <SignUpModal visible = {showModal} handleSave={handleSendToSave} handleClose = {handleShowSignUpModal}></SignUpModal>
     </div>
 

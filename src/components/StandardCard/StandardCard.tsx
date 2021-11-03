@@ -33,7 +33,7 @@ export default function StandardCard({ deviceTitle, features, colour }: Props){
     const toAddFeats = features?.map( feat => {
       switch(feat.type){
         case 1:
-            return <Button>{feat.name}</Button>
+          return <Button>{feat.name}</Button>
           break;
         case 2:
           return <Switch/>

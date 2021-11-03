@@ -13,4 +13,5 @@ export type UserSchema = {
 
 export type UserFetched = DevicesSchema & { 
   login_status: number;
+  error?: any;
 }

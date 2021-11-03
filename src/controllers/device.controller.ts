@@ -1,7 +1,10 @@
+import { debug } from "../constants/debug";
 import { DeviceItemsSchema, NewDeviceSchema } from "../constants/device";
 import api from "../services/api";
+import { DeviceService } from "../services/device.service";
 
 
+const service = new DeviceService();
 export class DeviceController {
 
   static saveDevice(newDevice: NewDeviceSchema, userId: number){
@@ -19,20 +22,38 @@ export class DeviceController {
   }
 
   static async getDevices(userId: number){
-    const path = `/get_user_info`
-
-    const result = await api.get<DeviceItemsSchema[]>(path,
+    if(debug){
+      return [
         {
-          params:{ 
-            user_id: userId
-          }
-        })
-        .then(res => res.data)
-        .catch(({ response }) => {
-          throw new Error(response.status);
-        });
+          id: 0,
+          name: 'Teste', 
+          desc: 'Descricao teste', 
+          colour: '#990949',
+          user_id: 1,
+          ip_address: '192.168.0.05', 
+          port: '5080',
+          features: [
+            {
+              id: 1, 
+              name: 'teste', 
+              topic: 'Teste', 
+              type: 1, 
+              value: '', 
+              device_id:0
+            }],
+        }
+      ]
+    }
 
-    return result
+    try{
+      const res = await service.getDevices(userId);
+      return res
+
+    }
+    catch(error){
+      console.log(error);
+    }
+
   }
 
 }
