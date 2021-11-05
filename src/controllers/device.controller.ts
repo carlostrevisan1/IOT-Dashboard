@@ -40,7 +40,16 @@ export class DeviceController {
               type: 1, 
               value: '', 
               device_id:0
-            }],
+            },
+            {
+              id: 2, 
+              name: 'teste2', 
+              topic: 'Teste2', 
+              type: 2, 
+              value: '111', 
+              device_id:0
+            }
+          ],
         }
       ]
     }

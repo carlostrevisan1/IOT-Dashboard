@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { Badge, Button, Card, Menu, Slider, Switch, Typography } from 'antd';
 import {
-  MailOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
   SettingOutlined,
-  LinkOutlined,
 } from '@ant-design/icons';
 import { Header } from 'antd/lib/layout/layout';
 import { FeaturesSchema } from '../../constants/device';
@@ -107,7 +103,12 @@ export default function StandardCard({ deviceTitle, features, colour }: Props){
           {handleCreateFeatures()}
         </div>
       </Card>
-      <FeaturesModal handleClose={handleEditModal} visible={showEditModal} handleSave={(va) => {console.log(va)}}/>
+      <FeaturesModal 
+        handleClose={handleEditModal} 
+        visible={showEditModal} 
+        handleSave={(va) => {console.log(va)}}
+        features={features}
+        />
     </div>
   );
 };

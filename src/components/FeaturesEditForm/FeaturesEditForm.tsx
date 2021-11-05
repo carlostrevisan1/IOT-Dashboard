@@ -11,13 +11,14 @@ const layout = {
 };
 
 type Props = FormProps &{
+  visible: boolean;
 }
 
-export default function FeaturesEditForm({id, onFinish} : Props){
+export default function FeaturesEditForm({id, onFinish, visible} : Props){
   
 
   return (
-      <Form id={id} {...layout} labelAlign={"left"} name="nest-messages" onFinish={onFinish}>
+      <Form id={id} {...layout} labelAlign={"left"} name="nest-messages" onFinish={onFinish} hidden={visible}>
 
         <Form.Item
           name={['type']}
