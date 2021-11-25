@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://80d2-179-98-74-90.ngrok.io",
+  baseURL: "http://iotdashboardapi.duckdns.org:5000",
 });
 
 axios.interceptors.request.use(request => {

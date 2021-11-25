@@ -1,10 +1,11 @@
-import { Button, Card, List } from 'antd';
+import { Button, Card, Form, List } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FeaturesSchema } from '../../constants/device';
 import {
-  PlusCircleFilled,
-  EditOutlined
+  PlusCircleOutlined,
+  EditOutlined,
+  DeleteOutlined
 } from '@ant-design/icons';
 import FeaturesEditForm from '../FeaturesEditForm/FeaturesEditForm';
 import { colors } from '../../constants/colors';
@@ -19,10 +20,20 @@ const layout = {
 };
 
 
+type ToEditFeature = {
+  name: string,
+  topic: string,
+  feat_type: string[],
+  value: string,
+  id?: number,
+}
+
+
 type Props = {
   visible: boolean;
   handleClose: () => void;
-  handleSave: (newDevice: any) => void;
+  handleSave: (newFeature: any) => void;
+  handleDelete: (feature: FeaturesSchema) => void;
   features?: FeaturesSchema[];
 }
 
@@ -30,22 +41,38 @@ export default function FeaturesModal(
   { visible,
     handleClose,
     handleSave,
-    features
+    features,
+    handleDelete
   }: Props) {
 
   const [visibleForm, setVisibleForm] = useState(true);
   const [visibleList, setVisibleList] = useState(false);
+  const [feature, setFeature] = useState<ToEditFeature>();
+  const [isEdit, setIsEdit] = useState(false);
+
+  const [form] = Form.useForm();
+
+  function resetModal(){
+    setVisibleList(false);
+    setVisibleForm(true);
+  }
 
   function handleFinish(val: any) {
-    handleSave(val);
+    resetModal();
+
+    handleSave({...val, isEdit, id: feature?.id});
+
     handleClose();
   }
 
-function onClose(){
-  setVisibleList(false);
-  setVisibleForm(true);
-  handleClose();
-}
+  function onClose(){
+    resetModal();
+    handleClose();
+  }
+
+  useEffect(() => {
+    form.setFieldsValue(feature)
+  }, [form, feature])
 
   return (
     <div>
@@ -58,7 +85,7 @@ function onClose(){
             Cancel
           </Button>,
 
-          <Button form="NewDeviceForm" type="primary" htmlType="submit" >
+          <Button form="FeatureForm" type="primary" htmlType="submit" >
             Add
           </Button>,
         ]} >
@@ -71,23 +98,37 @@ function onClose(){
             dataSource={features}
             renderItem={item => (
               <List.Item>
-                <Card
-                  hoverable
-                  onClick={() => {
-                    // TODO SET Features data to modal and clear list
-                    setVisibleForm(!visibleForm)
-                    setVisibleList(true);
-                  }}>
-
+                <Card>
                   <Card.Grid style={{
                     width: '100%'
                   }}
                   >
-                    <div style={{ display: 'flex', textAlign: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', textAlign: 'center', justifyContent: 'space-between'}}>
                       <span style={{ display: 'inline-block', verticalAlign: 'middle', lineHeight: 'normal' }}>
-                        {item.name}
+                        {`${item.name} - ${item.topic}`}
                       </span>
-                      <EditOutlined style={{}} />
+
+                      <div>
+                        <EditOutlined 
+                          onClick={() => {
+                            const formatFeature: ToEditFeature = {
+                              feat_type: [item.type.toString()],
+                              name: item.name,
+                              topic: item.topic,
+                              value: item.value,
+                              id: item.id,
+                            } 
+
+                            setIsEdit(true);
+                            setFeature(formatFeature);
+                            setVisibleForm(!visibleForm);
+                            setVisibleList(true);
+                          }}
+                          style={{ color: 'yellow', marginRight: 25}} 
+                        />
+
+                        <DeleteOutlined onClick={() => handleDelete(item)} style={{color: 'red'}}/>
+                      </div>
                     </div>
 
                   </Card.Grid>
@@ -101,8 +142,8 @@ function onClose(){
           <Card
             hoverable
             onClick={() => {
-              // TODO SET Features data to modal and clear list
-              setVisibleForm(!visibleForm)
+              setIsEdit(false);
+              setVisibleForm(!visibleForm);
               setVisibleList(true);
             }}>
 
@@ -114,7 +155,7 @@ function onClose(){
                 <span style={{ display: 'inline-block', verticalAlign: 'middle', lineHeight: 'normal', color: colors.green}}>
                   {'Add Feature'}
                 </span>
-                <PlusCircleFilled style={{color: colors.green}} />
+                <PlusCircleOutlined style={{color: colors.green}} />
               </div>
 
             </Card.Grid>
@@ -123,7 +164,7 @@ function onClose(){
         </div>
 
         { /* Form */}
-        <FeaturesEditForm id="NewDeviceForm" onFinish={handleFinish} visible={visibleForm} />
+        <FeaturesEditForm id="FeatureForm" onFinish={handleFinish} visible={visibleForm} feature={feature} form={form} />
 
       </Modal>
     </div>

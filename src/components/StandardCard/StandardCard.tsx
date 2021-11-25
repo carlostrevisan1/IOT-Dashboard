@@ -1,21 +1,33 @@
 import React, { useState } from 'react';
-import { Badge, Button, Card, Menu, Slider, Switch, Typography } from 'antd';
+import { Badge, Button, Card, Menu, notification, Slider, Switch, Typography } from 'antd';
 import {
   SettingOutlined,
 } from '@ant-design/icons';
 import { Header } from 'antd/lib/layout/layout';
-import { FeaturesSchema } from '../../constants/device';
+import { EditFeatureSchema, FeaturesSchema, NewFeatureSchema } from '../../constants/device';
 import StandardInput from '../StandardInput/StandardInput';
 import FeaturesModal from '../FeaturesModal/FeaturesModal';
 import { cursorTo } from 'readline';
+import { DeviceController } from '../../controllers/device.controller';
+
+type ToSaveFeature = {
+  name: string,
+  topic: string,
+  feat_type: string[],
+  value: string,
+  isEdit: boolean,
+  id?: number,
+}
 
 type Props = {
   deviceTitle: string;
   features?: FeaturesSchema[];
   colour: string;
+  deviceId: number;
+  loadCards: () => void;
 }
 
-export default function StandardCard({ deviceTitle, features, colour }: Props) {
+export default function StandardCard({ deviceTitle, features, colour, deviceId, loadCards}: Props) {
 
   const [showEditModal, setShowEditModal] = useState(false)
   const [spinSettings, setSpin] = useState(false);
@@ -23,6 +35,93 @@ export default function StandardCard({ deviceTitle, features, colour }: Props) {
 
   function handleEditModal() {
     setShowEditModal(!showEditModal);
+  }
+
+  async function handleSave(val:ToSaveFeature ) {
+    console.log(val)
+
+    if(val.isEdit){
+      const [feat_type] = val.feat_type
+
+      const formatFeature: EditFeatureSchema = {
+        name: val.name,
+        topic: val.topic,
+        feat_type: Number(feat_type),
+        value: val.value,
+        feature_id: val.id,
+      }
+
+      const res = await DeviceController.editFeature(formatFeature);
+
+      if(res){
+        notification.open({
+          message: "Feature criada com sucesso!!",
+          description: "",
+          style:{backgroundColor: "#006700"},
+        })
+  
+        loadCards();
+      }
+      else{
+        notification.open({
+          message: "Falha ao criar feature!",
+          description: "Por favor, tente novamente.",
+          style:{backgroundColor: "#670000"},
+        })
+      }
+    } 
+    else {
+
+      const [feat_type] = val.feat_type
+  
+      const formatNewFeature: NewFeatureSchema = {
+        name: val.name,
+        topic: val.topic,
+        feat_type: Number(feat_type),
+        value: val.value,
+        device_id: deviceId,
+      }
+  
+      const res = await DeviceController.saveFeature(formatNewFeature);
+  
+      if(res){
+        notification.open({
+          message: "Feature criada com sucesso!!",
+          description: "",
+          style:{backgroundColor: "#006700"},
+        })
+  
+        loadCards();
+      }
+      else{
+        notification.open({
+          message: "Falha ao criar feature!",
+          description: "Por favor, tente novamente.",
+          style:{backgroundColor: "#670000"},
+        })
+      }
+    }
+
+  }
+
+  async function handleDelete(val: FeaturesSchema){
+    const res = await DeviceController.deleteFeature(val.id);
+    if(res){
+      notification.open({
+        message: "Feature deletada com sucesso!!",
+        description: "",
+        style:{backgroundColor: "#006700"},
+      })
+
+      loadCards();
+    }
+    else{
+      notification.open({
+        message: "Falha ao deletar feature!",
+        description: "Por favor, tente novamente.",
+        style:{backgroundColor: "#670000"},
+      })
+    }
   }
 
   function handleCreateFeatures() {
@@ -103,10 +202,12 @@ export default function StandardCard({ deviceTitle, features, colour }: Props) {
           {handleCreateFeatures()}
         </div>
       </Card>
+
       <FeaturesModal
         handleClose={handleEditModal}
+        handleDelete={handleDelete}
         visible={showEditModal}
-        handleSave={(va) => { console.log(va) }}
+        handleSave={handleSave}
         features={features}
       />
     </div>

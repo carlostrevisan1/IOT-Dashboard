@@ -1,5 +1,6 @@
 import { Button, Cascader, Form, FormProps, Input } from 'antd';
 import React from 'react';
+import { FeaturesSchema } from '../../constants/device';
 
 const layout = {
   labelCol: {
@@ -10,18 +11,36 @@ const layout = {
   },
 };
 
-type Props = FormProps &{
-  visible: boolean;
+
+type ToEditFeature = {
+  name: string,
+  topic: string,
+  feat_type: string[],
+  value: string,
 }
 
-export default function FeaturesEditForm({id, onFinish, visible} : Props){
+
+type Props = FormProps & {
+  visible: boolean;
+  feature?: ToEditFeature;
+}
+
+export default function FeaturesEditForm({id, onFinish, visible, feature, form} : Props){
   
 
+
   return (
-      <Form id={id} {...layout} labelAlign={"left"} name="nest-messages" onFinish={onFinish} hidden={visible}>
+      <Form 
+        id={id} 
+        {...layout} 
+        labelAlign={"left"} 
+        name="nest-messages" 
+        onFinish={onFinish} 
+        hidden={visible} 
+        form={form}>
 
         <Form.Item
-          name={['type']}
+          name={['feat_type']}
           label="Type"
           rules={[
             {
@@ -30,30 +49,50 @@ export default function FeaturesEditForm({id, onFinish, visible} : Props){
           ]}
         >
 
-          <Cascader options={[{
-            value: 'zhejiang',
-            label: 'Zhejiang',
-          }]} onChange={()=>{}} placeholder="Please select" />
+        <Cascader 
+          value={[feature ? feature?.feat_type.toString() : '']}
+          options={
+          [
+            {
+              value: '1',
+              label: 'Button',
+            },
+            {
+              value: '2',
+              label: 'Switch',
+            },
+            {
+              value: '3',
+              label: 'Slider',
+            },
+            {
+              value: '4',
+              label: 'TextInput',
+            },
+            
+          ]} 
+          onChange={()=>{console.log(feature)}} 
+          placeholder="Please select" />
 
         </Form.Item>
 
         <Form.Item 
-          name={['device', 'description']} 
-          label="Description"
+          name={['name']} 
+          label="Name"
           rules={[
             {
               required: true,
-              max: 200
+              max: 50
             },
           ]}>
 
-          <Input.TextArea />
+          <Input.TextArea value={feature ? feature?.name : ''} />
 
         </Form.Item>
 
         <Form.Item
-          name={['device', 'color']}
-          label="Color"
+          name={['topic']}
+          label="Topic"
           rules={[
             {
               type: 'string',
@@ -62,31 +101,21 @@ export default function FeaturesEditForm({id, onFinish, visible} : Props){
           ]}
         >
 
-          <Input />
+          <Input value={feature ? feature?.topic : ''} />
           
         </Form.Item>
 
         <Form.Item 
-          name={['broker', 'ip']} 
-          label="Broker Ip"
+          name={['value']} 
+          label="Value"
           rules={[
             {
               required: true,
             },
           ]}>
-          <Input />
+          <Input value={feature ? feature?.value : ''}/>
         </Form.Item>
-
-        <Form.Item 
-          name={['broker', 'port']} 
-          label="Port"
-          rules={[
-            {
-              required: true,
-            },
-          ]}>
-          <Input />
-        </Form.Item>
+        
         
       </Form>
   );

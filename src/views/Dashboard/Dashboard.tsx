@@ -140,6 +140,8 @@ export default function Dashboard() {
                   features={x.features}  
                   key={x.ip_address}
                   colour={x.colour}
+                  deviceId={x.id}
+                  loadCards={loadCards}
                   />
         })}
       </div>
