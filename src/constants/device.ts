@@ -7,6 +7,23 @@ export type NewDeviceSchema = {
   port: string,
 }
 
+export type NewFeatureSchema = {
+  name: string,
+  topic: string,
+  feat_type: number,
+  value: string,
+  device_id: number,
+}
+
+export type EditFeatureSchema = {
+  name: string,
+  topic: string,
+  feat_type: number,
+  value: string,
+  feature_id?: number,
+}
+
+
 export type FeaturesSchema = {
   id: number,
   name: string,

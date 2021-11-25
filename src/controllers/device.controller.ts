@@ -1,5 +1,5 @@
 import { debug } from "../constants/debug";
-import { DeviceItemsSchema, NewDeviceSchema } from "../constants/device";
+import { DeviceItemsSchema, EditFeatureSchema, NewDeviceSchema, NewFeatureSchema } from "../constants/device";
 import api from "../services/api";
 import { DeviceService } from "../services/device.service";
 
@@ -8,6 +8,7 @@ const service = new DeviceService();
 export class DeviceController {
 
   static saveDevice(newDevice: NewDeviceSchema, userId: number){
+    //TODO ARRUMAR -  PASSA PRO SERVICE
     const path = `/create_device`;
     
     const reqObj = {...newDevice, user_id: userId};
@@ -65,4 +66,21 @@ export class DeviceController {
 
   }
 
+  static async saveFeature(newFeature: NewFeatureSchema){
+    const res = service.saveFeature(newFeature);
+
+    return res;
+  }
+
+  static async editFeature(editFeature: EditFeatureSchema){
+    const res = service.editFeature(editFeature);
+
+    return res;
+  }
+
+  static async deleteFeature(feature_id: number){
+    const res = service.deleteFeature(feature_id);
+
+    return res;
+  }
 }
