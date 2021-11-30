@@ -10,11 +10,13 @@ type LoginObj = {
 type Props = {
   onSubmit: (values: LoginObj) => void,
   onFinishFailed?: (errorInfo: any) => void,
+  onSignUp?:() => void,
 }
 
 export const Login = ({
   onSubmit,
-  onFinishFailed 
+  onFinishFailed ,
+  onSignUp
 }: Props) => {
   
   return (
@@ -61,9 +63,11 @@ export const Login = ({
           span: 16,
         }}
       >
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" style={{marginRight: 10}}>
           Submit
         </Button>
+
+        <Button onClick={onSignUp}>Cadastre-se</Button>
       </Form.Item>
     </Form>
   );
