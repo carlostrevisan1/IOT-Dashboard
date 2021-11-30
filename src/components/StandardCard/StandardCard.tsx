@@ -13,8 +13,6 @@ import { cursorTo } from 'readline';
 import { DeviceController } from '../../controllers/device.controller';
 import hexToRgb from '../../utils/hexToRGB';
 
-import './styles.css';
-
 type ToSaveFeature = {
   name: string,
   topic: string,
