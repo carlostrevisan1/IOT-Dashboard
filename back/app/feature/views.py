@@ -15,10 +15,9 @@ def create_feature_route():
         name = args['name']
         topic = args['topic']
         feat_type = args['feat_type']
-        port = args['port']
         value = args['value']
         device_id = int(args['device_id'])
-        return jsonify(create_feature(name, topic, feat_type, port, value, device_id))
+        return jsonify(create_feature(name, topic, feat_type, value, device_id))
     except:
         return jsonify(False)
 
@@ -44,10 +43,9 @@ def update_feature_route():
         name = args['name']
         topic = args['topic']
         feat_type = args['feat_type']
-        port = args['port']
         value = args['value']
         
-        return jsonify(update_feature(feature_id, name, topic, feat_type, port, value))
+        return jsonify(update_feature(feature_id, name, topic, feat_type, value))
     except:
         return jsonify(False)
 
