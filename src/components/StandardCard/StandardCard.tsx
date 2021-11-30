@@ -157,13 +157,19 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
           else{
             textColour = "#FFF"
           }
-          return (<><Button key={feat.id} style={{
-                  backgroundColor: colour, 
-                  color: textColour, 
-                  margin: 5, 
-                  fontWeight: "bold", 
-                  borderRadius: 15, 
-                  fontSize: 15}}>{feat.name}</Button></>)
+          return (<>
+                    <Button key={feat.id} style={{
+                            backgroundColor: colour, 
+                            color: textColour, 
+                            margin: 5, 
+                            fontWeight: "bold", 
+                            borderRadius: 15, 
+                            fontSize: 15}}>
+
+                      {feat.name}
+
+                    </Button>
+                  </>)
           break;
         case 2:
           return <Switch key={feat.id} style={{backgroundColor: colour, margin: 5}}/>
@@ -188,12 +194,15 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
           }
           return (<div style={{ display: "flex", flexDirection:"row",}}>
                     <div style={{flex: 1}}>
-                      <StandardInput key={feat.id} label={feat.name} colour={inputTextColour}/></div>
-                        <Button key={feat.id} style={{
-                          backgroundColor: colour, 
-                          color: buttonTextColour, 
-                          borderRadius: 4, 
-                          }}>{feat.name}</Button></div>)
+                      <StandardInput key={feat.id} label={feat.name} colour={inputTextColour} withoutLabel/>
+                    </div>
+                      <Button key={feat.id} style={{
+                        backgroundColor: colour, 
+                        color: buttonTextColour, 
+                        borderRadius: 4, 
+                        }}>{feat.name}
+                      </Button>
+                    </div>)
         default:
           return;
 
