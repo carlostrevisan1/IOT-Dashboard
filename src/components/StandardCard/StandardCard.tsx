@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Badge, Button, Card, Menu, notification, Slider, Switch, SwitchProps, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Badge, Button, Card, Menu, notification, Slider, Switch, Typography } from 'antd';
 import {
   SettingOutlined,
   EditOutlined,
@@ -12,6 +12,7 @@ import FeaturesModal from '../FeaturesModal/FeaturesModal';
 import { cursorTo } from 'readline';
 import { DeviceController } from '../../controllers/device.controller';
 import hexToRgb from '../../utils/hexToRGB';
+import { connect, MqttClient } from 'mqtt';
 
 type ToSaveFeature = {
   name: string,
@@ -28,13 +29,28 @@ type Props = {
   colour: string;
   deviceId: number;
   loadCards: () => void;
+  brokerIp: string;
+  brokerPort: string;
 }
 
-export default function StandardCard({ deviceTitle, features, colour, deviceId, loadCards}: Props) {
+export default function StandardCard({ deviceTitle, features, colour, deviceId, loadCards, brokerIp, brokerPort}: Props) {
 
   const [showEditModal, setShowEditModal] = useState(false)
   const [spinSettings, setSpin] = useState(false);
-  const refSwitch = useRef<HTMLElement>(null);
+
+  const mqttClient = connect(`tcp://${brokerIp}`, {protocol: 'tcp',port: Number(brokerPort)});
+
+// preciouschicken.com is the MQTT topic
+  
+
+  useEffect(() => {
+
+    mqttClient.on('connect', () => {
+      alert('Conectado!')
+      
+    })
+    
+  }, [])
 
   function handleEditModal() {
     setShowEditModal(!showEditModal);
@@ -150,7 +166,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
                   fontSize: 15}}>{feat.name}</Button></>)
           break;
         case 2:
-          return <Switch key={feat.id} ref={refSwitch} style={{backgroundColor: colour, margin: 5}}/>
+          return <Switch key={feat.id} style={{backgroundColor: colour, margin: 5}}/>
           break;
         case 3:
           return <Slider key={feat.id}  style={{margin: 5}}/>

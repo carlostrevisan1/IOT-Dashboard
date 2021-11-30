@@ -69,9 +69,7 @@ function App() {
           IOT-Dashboard 
         </h1>
 
-        <Login onSubmit={handleLogin}/>
-
-        <Button onClick={handleShowSignUpModal}>Cadastre-se</Button>
+        <Login onSubmit={handleLogin} onSignUp={handleShowSignUpModal}/>
 
       </header>
 
