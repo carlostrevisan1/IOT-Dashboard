@@ -142,6 +142,8 @@ export default function Dashboard() {
                   colour={x.colour}
                   deviceId={x.id}
                   loadCards={loadCards}
+                  brokerIp={x.ip_address}
+                  brokerPort={x.port}
                   />
         })}
       </div>
