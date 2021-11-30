@@ -160,16 +160,16 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
           return (<><Button key={feat.id} style={{
                   backgroundColor: colour, 
                   color: textColour, 
-                  margin: 5, 
+                  margin: 10, 
                   fontWeight: "bold", 
                   borderRadius: 15, 
                   fontSize: 15}}>{feat.name}</Button></>)
           break;
         case 2:
-          return <Switch key={feat.id} style={{backgroundColor: colour, margin: 5}}/>
+          return <Switch key={feat.id} style={{backgroundColor: colour, margin: 10}}/>
           break;
         case 3:
-          return <Slider key={feat.id}  style={{margin: 5}}/>
+          return <Slider key={feat.id}  style={{margin: 10}}/>
           break;
         case 4:
           let buttonTextColour:string = ""
@@ -186,7 +186,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
             inputTextColour = "#FFF";
             buttonTextColour = "#FFF"
           }
-          return (<div style={{ display: "flex", flexDirection:"row",}}>
+          return (<div style={{ display: "flex", flexDirection:"row", margin: 10}}>
                     <div style={{flex: 1}}>
                       <StandardInput key={feat.id} label={feat.name} colour={inputTextColour}/></div>
                         <Button key={feat.id} style={{
