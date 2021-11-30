@@ -23,13 +23,13 @@ function App() {
 
     console.log(result);
     
-    if(result.login_status){
+    if(result.login_status > 0){
       hist.push('Dashboard', {user: result})
     }
     else {
       notification.open({
         message: result.error,
-        description: "Por favor, tente novamente.",
+        description: "Senha ou usuário inválidos.",
         style:{backgroundColor: "#670000"},
       })
     }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Badge, Button, Card, Menu, notification, Slider, Switch, Typography } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import { Badge, Button, Card, Menu, notification, Slider, Switch, SwitchProps, Typography } from 'antd';
 import {
   SettingOutlined,
   EditOutlined,
@@ -11,6 +11,9 @@ import StandardInput from '../StandardInput/StandardInput';
 import FeaturesModal from '../FeaturesModal/FeaturesModal';
 import { cursorTo } from 'readline';
 import { DeviceController } from '../../controllers/device.controller';
+import hexToRgb from '../../utils/hexToRGB';
+
+import './styles.css';
 
 type ToSaveFeature = {
   name: string,
@@ -33,7 +36,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
 
   const [showEditModal, setShowEditModal] = useState(false)
   const [spinSettings, setSpin] = useState(false);
-
+  const refSwitch = useRef<HTMLElement>(null);
 
   function handleEditModal() {
     setShowEditModal(!showEditModal);
@@ -106,6 +109,8 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
 
   }
 
+  // useEffect(()=>{console.log(refSwitch.current?.ariaPressed)},[refSwitch.current?.ariaPressed])
+
   async function handleDelete(val: FeaturesSchema){
     const res = await DeviceController.deleteFeature(val.id);
     if(res){
@@ -128,18 +133,53 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
 
   function handleCreateFeatures() {
     const toAddFeats = features?.map(feat => {
+      const rgb = hexToRgb(colour);
       switch (feat.type) {
         case 1:
-          return <Button key={feat.id}>{feat.name}</Button>
+          let textColour:string = ""
+          if (rgb[0] + rgb[1] + rgb[2] > 765/2){
+            textColour = "#000";
+          }
+          else{
+            textColour = "#FFF"
+          }
+          return (<><Button key={feat.id} style={{
+                  backgroundColor: colour, 
+                  color: textColour, 
+                  margin: 5, 
+                  fontWeight: "bold", 
+                  borderRadius: 15, 
+                  fontSize: 15}}>{feat.name}</Button></>)
           break;
         case 2:
-          return <Switch key={feat.id}/>
+          return <Switch key={feat.id} ref={refSwitch} style={{backgroundColor: colour, margin: 5}}/>
           break;
         case 3:
-          return <Slider key={feat.id}/>
+          return <Slider key={feat.id}  style={{margin: 5}}/>
           break;
         case 4:
-          return <StandardInput key={feat.id} label={feat.name} />
+          let buttonTextColour:string = ""
+          let inputTextColour:string = ""
+          if (rgb[0] + rgb[1] + rgb[2] > 765/2){
+            inputTextColour = colour;
+            buttonTextColour = "#000";
+          }
+          else if (rgb[0] + rgb[1] + rgb[2] > 100){
+            inputTextColour = colour;
+            buttonTextColour = "#FFF"
+          }
+          else{
+            inputTextColour = "#FFF";
+            buttonTextColour = "#FFF"
+          }
+          return (<div style={{ display: "flex", flexDirection:"row",}}>
+                    <div style={{flex: 1}}>
+                      <StandardInput key={feat.id} label={feat.name} colour={inputTextColour}/></div>
+                        <Button key={feat.id} style={{
+                          backgroundColor: colour, 
+                          color: buttonTextColour, 
+                          borderRadius: 4, 
+                          }}>{feat.name}</Button></div>)
         default:
           return;
 
