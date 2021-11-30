@@ -1,5 +1,5 @@
 import { Button, Cascader, Form, FormProps, Input } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FeaturesSchema } from '../../constants/device';
 
 const layout = {
@@ -28,6 +28,121 @@ type Props = FormProps & {
 export default function FeaturesEditForm({id, onFinish, visible, feature, form} : Props){
   
 
+  const [type, setType] = useState(Number(feature?.feat_type));
+
+  useEffect(() => {
+    setType(Number(feature?.feat_type))
+  }, [feature])
+
+  
+
+  function renderDynamicForm(){
+    switch(type){
+      case 1:
+        return ( 
+          <Form.Item 
+            name={['value']} 
+            label="Value"
+            rules={[
+              {
+                required: true,
+              },
+            ]}>
+
+            <Input value={feature ? feature?.value : ''}/>
+
+          </Form.Item>
+        );
+      case 2:
+        return (
+        <>
+          <Form.Item 
+            name={['valueOn']} 
+            label="Value ON"
+            rules={[
+              {
+                required: true,
+              },
+            ]}>
+
+            <Input value={feature ? feature?.value : ''}/>
+
+        </Form.Item>
+
+        <Form.Item 
+          name={['valueOFF']} 
+          label="Value OFF"
+          rules={[
+            {
+              required: true,
+            },
+          ]}>
+
+          <Input value={feature ? feature?.value : ''}/>
+
+        </Form.Item>
+      </>);
+      case 3:
+        return (
+          <>
+            <Form.Item 
+              name={['initialRange']} 
+              label="Initial Range"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}>
+
+              <Input value={feature ? feature?.value : ''}/>
+
+            </Form.Item>
+
+            <Form.Item 
+              name={['finalRange']} 
+              label="Final Range"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}>
+
+              <Input value={feature ? feature?.value : ''}/>
+
+            </Form.Item>
+
+            <Form.Item 
+              name={['prefix']} 
+              label="Prefix (optional)"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}>
+
+              <Input value={feature ? feature?.value : ''}/>
+
+            </Form.Item>
+
+            <Form.Item 
+              name={['sufix']} 
+              label="Sufix (optional)"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}>
+
+              <Input value={feature ? feature?.value : ''}/>
+
+            </Form.Item>
+          </>
+        );
+        break;
+      case 4:
+        break;
+    }
+  }
 
   return (
       <Form 
@@ -71,7 +186,7 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
             },
             
           ]} 
-          onChange={()=>{console.log(feature)}} 
+          onSelect={sel => {setType(Number(sel))}}
           placeholder="Please select" />
 
         </Form.Item>
@@ -105,16 +220,9 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
           
         </Form.Item>
 
-        <Form.Item 
-          name={['value']} 
-          label="Value"
-          rules={[
-            {
-              required: true,
-            },
-          ]}>
-          <Input value={feature ? feature?.value : ''}/>
-        </Form.Item>
+        {renderDynamicForm()}
+
+        
         
         
       </Form>

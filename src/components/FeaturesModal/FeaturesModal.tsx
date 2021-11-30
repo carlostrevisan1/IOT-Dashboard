@@ -28,6 +28,20 @@ type ToEditFeature = {
   id?: number,
 }
 
+type FinishingValues = {
+  name: string,
+  topic: string,
+  feat_type: string[],
+  value?: string,
+  valueOn?: string,
+  valueOFF?: string,
+  initialRange?: string,
+  finalRange?: string,
+  prefix?: string,
+  sufix?: string,
+  id?: number,
+}
+
 
 type Props = {
   visible: boolean;
@@ -57,10 +71,45 @@ export default function FeaturesModal(
     setVisibleForm(true);
   }
 
-  function handleFinish(val: any) {
+  function handleFinish(val: FinishingValues) {
     resetModal();
 
-    handleSave({...val, isEdit, id: feature?.id});
+    const [featType] = val.feat_type;
+
+    let toSave: ToEditFeature = {} as ToEditFeature;
+
+    switch(Number(featType)){
+      case 1:
+        {
+          toSave = {...val, value: val.value || ''};
+
+          break;
+        }
+      case 2: {
+
+        const value = `${val.valueOn};${val.valueOFF}`;
+
+        toSave = {...val, value};
+
+        break;
+      }
+
+      case 3: {
+
+        const value = `${val.initialRange};${val.finalRange};${val.prefix};${val.sufix}`;
+
+        toSave = {...val, value};
+
+        break;
+      }
+      case 4:
+        const value = ``;
+
+        toSave = {...val, value};
+        break;
+    }
+
+    handleSave({...toSave, isEdit, id: feature?.id});
 
     handleClose();
   }
@@ -81,11 +130,11 @@ export default function FeaturesModal(
         visible={visible}
         onCancel={onClose}
         footer={[
-          <Button type="default" onClick={handleClose}>
+          <Button type="default" onClick={onClose}>
             Cancel
           </Button>,
 
-          <Button form="FeatureForm" type="primary" htmlType="submit" >
+          <Button form="FeatureForm" type="primary" htmlType="submit" hidden={visibleForm ? true : false} >
             Add
           </Button>,
         ]} >
@@ -98,7 +147,7 @@ export default function FeaturesModal(
             dataSource={features}
             renderItem={item => (
               <List.Item>
-                <Card>
+                <Card key={item.id}>
                   <Card.Grid style={{
                     width: '100%'
                   }}
@@ -145,6 +194,13 @@ export default function FeaturesModal(
               setIsEdit(false);
               setVisibleForm(!visibleForm);
               setVisibleList(true);
+              setFeature({
+                feat_type: [''],
+                name: '',
+                topic: '',
+                value: '',
+                id: 0,
+              } as ToEditFeature);
             }}>
 
             <Card.Grid style={{

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Badge, Button, Card, Menu, notification, Slider, Switch, Typography } from 'antd';
 import {
   SettingOutlined,
+  EditOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons';
 import { Header } from 'antd/lib/layout/layout';
 import { EditFeatureSchema, FeaturesSchema, NewFeatureSchema } from '../../constants/device';
@@ -37,7 +39,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
     setShowEditModal(!showEditModal);
   }
 
-  async function handleSave(val:ToSaveFeature ) {
+  async function handleSave(val: ToSaveFeature ) {
     console.log(val)
 
     if(val.isEdit){
@@ -55,7 +57,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
 
       if(res){
         notification.open({
-          message: "Feature criada com sucesso!!",
+          message: "Feature editada com sucesso!!",
           description: "",
           style:{backgroundColor: "#006700"},
         })
@@ -64,7 +66,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
       }
       else{
         notification.open({
-          message: "Falha ao criar feature!",
+          message: "Falha ao editar feature!",
           description: "Por favor, tente novamente.",
           style:{backgroundColor: "#670000"},
         })
@@ -128,16 +130,16 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
     const toAddFeats = features?.map(feat => {
       switch (feat.type) {
         case 1:
-          return <Button>{feat.name}</Button>
+          return <Button key={feat.id}>{feat.name}</Button>
           break;
         case 2:
-          return <Switch />
+          return <Switch key={feat.id}/>
           break;
         case 3:
-          return <Slider />
+          return <Slider key={feat.id}/>
           break;
         case 4:
-          return <StandardInput label={feat.name} />
+          return <StandardInput key={feat.id} label={feat.name} />
         default:
           return;
 
@@ -154,13 +156,17 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
       minWidth: 350,
       flexShrink: 0,
       marginTop: 10,
-    }}>
+    }}
+      key={deviceId}
+    >
 
       <Card style={{
         borderRadius: 10,
         background: `linear-gradient(182deg, ${colour} 65px, #1f1f1f 66px)`,
 
-      }} >
+      }} 
+      key={deviceId}
+      >
 
         <Header style={{
           flexDirection: 'row',
@@ -177,22 +183,29 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
             whiteSpace: "nowrap",
             fontWeight: 600,
             fontSize: "1.2rem",
-            width: "calc(100% - 30px)",
+            width: "calc(100% - 68px)",
 
           }}>{deviceTitle}</Typography>
 
           <span style={{
             // marginTop: "25px",
-            marginLeft: "12px",
-            fontSize: "20px",
-            cursor: "pointer",
+            fontSize: "18px",
           }}>
+
+            <EditOutlined 
+              onClick={() => {}}
+              style={{ marginRight: 5}} 
+            />
+
+
             <SettingOutlined
               onClick={handleEditModal}
               spin={spinSettings}
               onMouseEnter={() => setSpin(!spinSettings)}
               onMouseLeave={() => setSpin(!spinSettings)}
             />
+
+            <DeleteOutlined onClick={() => {}} style={{ marginLeft: 5}}/>
           </span>
 
 
