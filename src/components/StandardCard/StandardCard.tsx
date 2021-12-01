@@ -78,7 +78,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
       message: alertMsg,
       description: "",
       style:{backgroundColor: bgColour},
-    })
+    })}
 
   function handleEditDevice(val: DeviceItemsSchema){
     console.log(val);
@@ -207,16 +207,19 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
           break;
         case 2:
           return <Switch key={feat.id} 
-                         onChange={val=>{mqttPublish(feat.topic, switchMessage(feat.value, val))}} 
-                         style={{backgroundColor: colour, margin: 10}}/>
+                        onChange={val => {mqttPublish(feat.topic, switchMessage(feat.value, val))}} 
+                        style={{backgroundColor: colour, margin: 10}}/>
           break;
         case 3:
           const range = setupSlider(feat.value);
           const middle = Math.round((Number(range[0]) + Number(range[1]))/2);
-          return <Slider key={feat.id} 
-                         min={Number(range[0])} max={Number(range[1])} defaultValue={middle}
-                         onAfterChange={val=>{mqttPublish(feat.topic, sliderMessage(feat.value, val))}} 
-                         style={{margin: 10}}/>
+          
+          return <Slider  key={feat.id} 
+                          min={Number(range[0])}
+                          max={Number(range[1])} 
+                          defaultValue={middle}
+                          onAfterChange={(val: number) => {mqttPublish(feat.topic, sliderMessage(feat.value, val))}} 
+                          style={{margin: 10}}/>
           break;
         case 4:
           let buttonTextColour:string = ""
@@ -349,4 +352,4 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
       />
     </div>
   );
-}};
+};
