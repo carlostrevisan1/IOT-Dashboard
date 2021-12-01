@@ -14,14 +14,11 @@ def get_user(user_id: int or None=None):
     else:
         return select_all_from_condition("user", condition=f"user.id == {user_id}")
 
-def update_user(user_id: int, name: str, email: str, passw: str or None, colour: str):
-    values = [name, email, colour]
-    columns = ["name", "email", "passw", "colour"]
-    if passw is not None:
-        hashed_passw = sha256_crypt.hash(passw)
-        values.append(hashed_passw)
-        columns.append("passw")
-    return update_where_condition("user", values, columns=columns, condition=f"user.id == {user_id}")
+def update_user(user_id: int, passw: str):
+    columns = ["passw"]
+    hashed_passw = sha256_crypt.hash(passw)
+
+    return update_where_condition("user", [hashed_passw], columns=columns, condition=f"user.id == {user_id}")
 
 def delete_user(user_id: int):
     return delete_from_condition("user", condition=f"user.id == {user_id}")

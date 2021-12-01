@@ -13,7 +13,9 @@ def get_device(device_id: int or None=None):
         return select_all_from_condition("device", condition=f"device.id == {device_id}")
 
 def update_device(device_id: int, name: str, desc: str, ip: str, port: str, colour: str):
-    return update_where_condition("device", [name, desc, ip, port, colour], columns=["name", "desc", "ip", "port", "colour"],
+    if not is_color_like(colour):
+        colour = "#008282"
+    return update_where_condition("device", [name, desc, ip, port, colour], columns=["name", "desc", "ip_address", "port", "colour"],
                                   condition=f"device.id == {device_id}")
 
 def delete_device(device_id: int):

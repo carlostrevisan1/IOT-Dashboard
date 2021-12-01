@@ -31,8 +31,8 @@ CREATE TABLE `data` (
   `feat_id` INTEGER UNSIGNED
 );
 
-ALTER TABLE `feature` ADD FOREIGN KEY (`device_id`) REFERENCES `device` (`id`);
+ALTER TABLE `feature` ADD FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `device` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `device` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `data` ADD FOREIGN KEY (`feat_id`) REFERENCES `feature` (`id`);

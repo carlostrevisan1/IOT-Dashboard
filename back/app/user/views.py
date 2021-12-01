@@ -33,13 +33,8 @@ def get_user_route():
 def update_user_route():
     args = request.get_json()
     user_id = int(args['user_id'])
-    name = args['name']
-    email = args['email']
     passw = args['passw']
-    colour = args['colour']
-    if not passw:
-        passw = None
-    return jsonify(update_user(user_id, name, email, passw, colour))
+    return jsonify(update_user(user_id, passw))
 
 @user.route('/delete_user', methods=["DELETE"])
 @cross_origin(origin='*',headers=['Content-Type'])
