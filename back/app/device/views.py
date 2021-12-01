@@ -49,7 +49,8 @@ def update_device_route():
         colour = args['colour']
         
         return jsonify(update_device(device_id, name, desc, ip, port, colour))
-    except:
+    except Exception as e:
+        print(e)
         return jsonify(False)
 
 @device.route('/delete_device', methods=["DELETE"])
@@ -57,7 +58,6 @@ def update_device_route():
 def delete_device_route():
     try:
         device_id = int(request.get_json()['device_id'])
-
         return jsonify(delete_device(device_id))
     except:
         return jsonify(False)
