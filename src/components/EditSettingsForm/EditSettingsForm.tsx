@@ -36,11 +36,14 @@ export default function EditSettingsForm({id, onFinish, form} : Props){
             {
               type: 'string',
               required: true,
+
+              
+
             },
           ]}
         >
 
-          <Input />
+          <Input.Password />
           
         </Form.Item>
 
@@ -55,7 +58,7 @@ export default function EditSettingsForm({id, onFinish, form} : Props){
           ]}
         >
 
-          <Input />
+          <Input.Password />
           
         </Form.Item>
         

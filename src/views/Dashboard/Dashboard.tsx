@@ -7,6 +7,7 @@ import { DeviceItemsSchema, DevicesSchema, NewDeviceSchema } from '../../constan
 import { featuresTypeEnums } from '../../constants/featureTypes';
 import { UserFetched } from '../../constants/user';
 import { DeviceController } from '../../controllers/device.controller';
+import { UserController } from '../../controllers/user.controller';
 import './styles.css'
 
 
@@ -31,8 +32,42 @@ export default function Dashboard() {
     setCards(result)
   }
 
+  function validateNewPass(newPass: NewPass){
+    if(newPass.nPass === newPass.confirmPass){
+      return true;
+    }
+    else{
+      notification.open({
+        message: "As senhas não batem",
+        description: "Por favor, tente novamente.",
+        style:{backgroundColor: "#670000"},
+      })
+      return false;
+    }
+  }
+
   const handleSaveNewPass = async (newPass: NewPass) => {
-    console.log(newPass)
+    if(validateNewPass(newPass)){
+      const result = await UserController.changePass(newPass.nPass, user.login_status);
+
+      //TODO CHECAR ESSA TIPAGEM DO RESULT
+      if(result){
+        notification.open({
+          message: "Senha alterada com sucesso!!",
+          description: "",
+          style:{backgroundColor: "#006700"},
+        })
+        loadCards();
+      }
+      else{
+        notification.open({
+          message: "Falha ao alterar senha!",
+          description: "Por favor, tente novamente.",
+          style:{backgroundColor: "#670000"},
+        })
+      }
+      }
+
   }
 
   const handleSaveDevice = async (newDevice: NewDeviceSchema) => {

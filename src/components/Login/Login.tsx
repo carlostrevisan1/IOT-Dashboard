@@ -37,7 +37,7 @@ export const Login = ({
         name="email"
         rules={[
           {
-            required: false,
+            required: true,
             message: 'Please input your username!',
           },
         ]}
@@ -50,7 +50,7 @@ export const Login = ({
         name="passw"
         rules={[
           {
-            required: false,
+            required: true,
             message: 'Please input your password!',
           },
         ]}
