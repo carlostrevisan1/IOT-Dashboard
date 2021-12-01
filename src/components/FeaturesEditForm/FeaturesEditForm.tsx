@@ -65,7 +65,7 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
               },
             ]}>
 
-            <Input value={feature ? feature?.value : ''}/>
+            <Input value={feature ? feature?.value.split('Ḝ')[0] : ''}/>
 
         </Form.Item>
 
@@ -78,7 +78,7 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
             },
           ]}>
 
-          <Input value={feature ? feature?.value : ''}/>
+          <Input value={feature ? feature?.value.split('Ḝ')[1] : ''}/>
 
         </Form.Item>
       </>);
@@ -94,7 +94,7 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
                 },
               ]}>
 
-              <Input value={feature ? feature?.value : ''}/>
+              <Input value={feature ? feature?.value.split('Ḝ')[0] : ''}/>
 
             </Form.Item>
 
@@ -107,7 +107,7 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
                 },
               ]}>
 
-              <Input value={feature ? feature?.value : ''}/>
+              <Input value={feature ? feature?.value.split('Ḝ')[1] : ''}/>
 
             </Form.Item>
 
@@ -115,10 +115,10 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
               name={['prefix']} 
               label="Prefix (optional)"
               rules={[
-                
+                { transform: x => ''}
               ]}>
 
-              <Input value={feature ? feature?.value : ''}/>
+              <Input value={feature ? feature?.value.split('Ḝ')[2] : ''}/>
 
             </Form.Item>
 
@@ -126,10 +126,11 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
               name={['sufix']} 
               label="Sufix (optional)"
               rules={[
+                { transform: x => ''}
               
               ]}>
 
-              <Input value={feature ? feature?.value : ''}/>
+              <Input value={feature ? feature?.value.split('Ḝ')[3] : ''}/>
 
             </Form.Item>
           </>
