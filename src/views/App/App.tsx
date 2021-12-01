@@ -21,8 +21,6 @@ function App() {
   const handleLogin = async (values: LoginObj) => {
     const result = await UserController.userLogin(values.email, values.passw);
 
-    console.log(result);
-    
     if(result.login_status > 0){
       hist.push('Dashboard', {user: result})
     }

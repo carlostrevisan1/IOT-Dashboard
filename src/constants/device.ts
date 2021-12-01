@@ -33,6 +33,15 @@ export type FeaturesSchema = {
   device_id: number,
 }
 
+export type EditDeviceSchema = {
+  device_id: number;
+  name: string;
+  desc: string;
+  ip: string;
+  port: string;
+  colour: string;
+}
+
 export type DeviceItemsSchema = {
   id: number,
   name: string, 

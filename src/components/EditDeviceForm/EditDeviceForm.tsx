@@ -20,8 +20,6 @@ type Props = FormProps & {
 
 export default function EditDeviceForm({id, onFinish, device, form} : Props){
   
-  console.log(device)
-
   return (
       <Form id={id} 
       {...layout} 
@@ -60,13 +58,18 @@ export default function EditDeviceForm({id, onFinish, device, form} : Props){
 
         <Form.Item
           name={['colour']}
-          label="Color"
+          label="Color (hex)"
           rules={[
             {
               type: 'string',
-              required: true,
+              
             },
+            {
+              pattern: new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"),
+              message: 'Precisa ser no formato de Hexadecimal! ex: #440099'
+            }
           ]}
+          
         >
 
           <Input value={device.colour}/>

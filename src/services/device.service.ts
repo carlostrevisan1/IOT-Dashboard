@@ -1,8 +1,9 @@
 import { AxiosResponse } from "axios";
-import { DeviceItemsSchema, EditFeatureSchema, NewFeatureSchema } from "../constants/device";
+import { DeviceItemsSchema, EditDeviceSchema, EditFeatureSchema, NewFeatureSchema } from "../constants/device";
 import api from "../services/api";
 
 export class DeviceService{
+
   async getDevices(userId: number){
     const path = `/get_user_info`
 
@@ -43,4 +44,22 @@ export class DeviceService{
 
         return res
   }
+
+  async editDevice(device: EditDeviceSchema){
+    const res = api.put<EditDeviceSchema, AxiosResponse<boolean>>(`/update_device`, device)
+        .then(res => res.data)
+        .catch((error) =>  false);
+
+        return res
+  }
+
+  async deleteDevice(device_id: number){
+    const res = api.delete<{device_id: number}, AxiosResponse<boolean>>(`/delete_device`, {data: {device_id}})
+        .then(res => res.data)
+        .catch((error) =>  false);
+
+        return res
+  }
+
+
 }

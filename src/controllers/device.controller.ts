@@ -1,5 +1,5 @@
 import { debug } from "../constants/debug";
-import { DeviceItemsSchema, EditFeatureSchema, NewDeviceSchema, NewFeatureSchema } from "../constants/device";
+import { DeviceItemsSchema, EditDeviceSchema, EditFeatureSchema, NewDeviceSchema, NewFeatureSchema } from "../constants/device";
 import api from "../services/api";
 import { DeviceService } from "../services/device.service";
 
@@ -61,7 +61,6 @@ export class DeviceController {
 
     }
     catch(error){
-      console.log(error);
     }
 
   }
@@ -83,4 +82,17 @@ export class DeviceController {
 
     return res;
   }
+
+  static async editDevice(device: EditDeviceSchema){
+    const res = service.editDevice(device);
+
+    return res;
+  }
+
+  static async deleteDevice(device_id: number){
+    const res = service.deleteDevice(device_id);
+
+    return res;
+  }
+
 }

@@ -6,7 +6,7 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import { Header } from 'antd/lib/layout/layout';
-import { DeviceItemsSchema, EditFeatureSchema, FeaturesSchema, NewFeatureSchema } from '../../constants/device';
+import { DeviceItemsSchema, EditDeviceSchema, EditFeatureSchema, FeaturesSchema, NewFeatureSchema } from '../../constants/device';
 import StandardInput from '../StandardInput/StandardInput';
 import FeaturesModal from '../FeaturesModal/FeaturesModal';
 import { cursorTo } from 'readline';
@@ -80,13 +80,57 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
       style:{backgroundColor: bgColour},
     })}
 
-  function handleEditDevice(val: DeviceItemsSchema){
-    console.log(val);
+  async function handleEditDevice(val: DeviceItemsSchema){
+
+    const formatedDevice = {
+      device_id: device.id,
+      colour: val.colour,
+      desc: val.desc,
+      ip: val.ip_address,
+      name: val.name,
+      port: val.port,
+
+    } as EditDeviceSchema;
+
+    const res = await DeviceController.editDevice(formatedDevice);
+
+    if(res){
+      notification.open({
+        message: "Device atualizado com sucesso!!",
+        description: "",
+        style:{backgroundColor: "#006700"},
+      })
+
+      loadCards();
+    }
+    else{
+      notification.open({
+        message: "Falha ao atualizar Device!",
+        description: "Por favor, tente novamente.",
+        style:{backgroundColor: "#670000"},
+      })
+    }
     setEditDeviceModal(false);
   }
 
-  function handleDeleteDevice(){
-    console.log('delete')
+  async function handleDeleteDevice(){
+    const res = await DeviceController.deleteDevice(device.id);
+    if(res){
+      notification.open({
+        message: "Device deletado com sucesso!!",
+        description: "",
+        style:{backgroundColor: "#006700"},
+      })
+
+      loadCards();
+    }
+    else{
+      notification.open({
+        message: "Falha ao deletar Device!",
+        description: "Por favor, tente novamente.",
+        style:{backgroundColor: "#670000"},
+      })
+    }
   }
 
   async function handleSave(val: ToSaveFeature ) {

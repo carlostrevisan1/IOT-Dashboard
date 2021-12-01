@@ -3,6 +3,9 @@ import { NewUserSchema, UserFetched, UserSchema } from '../constants/user'
 import api from '../services/api'
 import { UserService } from '../services/user.service';
 
+
+
+
 type RequestObjectType = {
   email: string, 
   passw: string,
@@ -36,7 +39,6 @@ export class UserController {
       return res;
     }
     catch(error){
-      console.log(error)
 
       return {login_status: false, error: error};
     }
@@ -45,8 +47,6 @@ export class UserController {
   static userSignUp(newUser: NewUserSchema){
 
     const path = `/create_user`;
-
-    console.log(newUser.user);
 
     const result = 
         api.post<UserSchema, boolean>(path, newUser.user)
@@ -57,4 +57,9 @@ export class UserController {
     
   }
 
+  static changePass(pass: string, user_id: number){
+    const res = service.changePass(pass, user_id);
+
+    return res;
+  }
 }
