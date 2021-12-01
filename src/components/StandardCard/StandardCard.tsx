@@ -6,13 +6,14 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import { Header } from 'antd/lib/layout/layout';
-import { EditFeatureSchema, FeaturesSchema, NewFeatureSchema } from '../../constants/device';
+import { DeviceItemsSchema, EditFeatureSchema, FeaturesSchema, NewFeatureSchema } from '../../constants/device';
 import StandardInput from '../StandardInput/StandardInput';
 import FeaturesModal from '../FeaturesModal/FeaturesModal';
 import { cursorTo } from 'readline';
 import { DeviceController } from '../../controllers/device.controller';
 import hexToRgb from '../../utils/hexToRGB';
 import { connect, MqttClient } from 'mqtt';
+import DeviceEditModal from '../DeviceEditModal/DeviceEditModal';
 
 type ToSaveFeature = {
   name: string,
@@ -31,11 +32,13 @@ type Props = {
   loadCards: () => void;
   brokerIp: string;
   brokerPort: string;
+  device: DeviceItemsSchema;
 }
 
-export default function StandardCard({ deviceTitle, features, colour, deviceId, loadCards, brokerIp, brokerPort}: Props) {
+export default function StandardCard({ deviceTitle, features, colour, deviceId, loadCards, brokerIp, brokerPort, device}: Props) {
 
-  const [showEditModal, setShowEditModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editDeviceModal, setEditDeviceModal] = useState(false);
   const [spinSettings, setSpin] = useState(false);
 
   const mqttClient = connect(`tcp://${brokerIp}`, {protocol: 'tcp',port: Number(brokerPort)});
@@ -56,8 +59,16 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
     setShowEditModal(!showEditModal);
   }
 
+  function handleEditDevice(val: DeviceItemsSchema){
+    console.log(val);
+    setEditDeviceModal(false);
+  }
+
+  function handleDeleteDevice(){
+    console.log('delete')
+  }
+
   async function handleSave(val: ToSaveFeature ) {
-    console.log(val)
 
     if(val.isEdit){
       const [feat_type] = val.feat_type
@@ -256,7 +267,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
           }}>
 
             <EditOutlined 
-              onClick={() => {}}
+              onClick={() => setEditDeviceModal(true)}
               style={{ marginRight: 5}} 
             />
 
@@ -268,7 +279,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
               onMouseLeave={() => setSpin(!spinSettings)}
             />
 
-            <DeleteOutlined onClick={() => {}} style={{ marginLeft: 5}}/>
+            <DeleteOutlined onClick={() => {handleDeleteDevice()}} style={{ marginLeft: 5}}/>
           </span>
 
 
@@ -285,6 +296,13 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
         visible={showEditModal}
         handleSave={handleSave}
         features={features}
+      />
+
+      <DeviceEditModal
+        device={device}
+        handleClose={() => { setEditDeviceModal(false)}}
+        handleSave={handleEditDevice}
+        visible={editDeviceModal}
       />
     </div>
   );

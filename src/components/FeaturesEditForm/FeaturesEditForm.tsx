@@ -115,9 +115,7 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
               name={['prefix']} 
               label="Prefix (optional)"
               rules={[
-                {
-                  required: true,
-                },
+                
               ]}>
 
               <Input value={feature ? feature?.value : ''}/>
@@ -128,9 +126,7 @@ export default function FeaturesEditForm({id, onFinish, visible, feature, form} 
               name={['sufix']} 
               label="Sufix (optional)"
               rules={[
-                {
-                  required: true,
-                },
+              
               ]}>
 
               <Input value={feature ? feature?.value : ''}/>
