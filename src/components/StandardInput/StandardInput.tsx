@@ -6,13 +6,17 @@ import './styles.css'
 type Props = {
   label: string;
   colour: string;
+  withoutLabel?: boolean;
+  onChange?:(text:string)=>void;
 }
 
-export default function StandardInput({label, colour}: Props){
+export default function StandardInput({label, colour, withoutLabel = false, onChange}: Props){
   return (
     <div className="field" style={{ display: "flex", flexDirection:"row"}}>
-      {/* <Typography id="label">{label}</Typography> */}
-      <Input id="input" style={{color: colour, flexGrow: 4}}/>
+      {!withoutLabel &&  
+        <Typography id="label">{label}</Typography>
+      }
+      <Input id="input" onChange={e=>onChange? onChange(e.target.value) : {}} style={{color: colour, flexGrow: 4}}/>
     </div>
   );
 }

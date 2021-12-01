@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Button, Card, Menu, notification, Slider, Switch, Typography } from 'antd';
+import { Alert, Badge, Button, Card, Menu, notification, Slider, Switch, Typography } from 'antd';
 import {
   SettingOutlined,
   EditOutlined,
@@ -12,6 +12,9 @@ import FeaturesModal from '../FeaturesModal/FeaturesModal';
 import { cursorTo } from 'readline';
 import { DeviceController } from '../../controllers/device.controller';
 import hexToRgb from '../../utils/hexToRGB';
+import switchMessage from '../../utils/switchMessage';
+import setupSlider from '../../utils/setupSlider';
+import sliderMessage from '../../utils/sliderMessage';
 import { connect, MqttClient } from 'mqtt';
 
 type ToSaveFeature = {
@@ -37,6 +40,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
 
   const [showEditModal, setShowEditModal] = useState(false)
   const [spinSettings, setSpin] = useState(false);
+  const [inputText, setInputText] = useState("");
 
   const mqttClient = connect(`tcp://${brokerIp}`, {protocol: 'tcp',port: Number(brokerPort)});
 
@@ -54,6 +58,24 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
 
   function handleEditModal() {
     setShowEditModal(!showEditModal);
+  }
+
+  function mqttPublish(topic:string, message:string){
+    mqttClient.publish(topic, message);
+    const alertMsg = "Mesagem: '" + message + "' enviada";
+    const rgb = hexToRgb(colour)
+    let bgColour:string = ""
+    if (rgb[0] + rgb[1] + rgb[2] > 500){
+      bgColour = "#1c1c1c";
+    }
+    else{
+      bgColour = colour;
+    }
+    notification.open({
+      message: alertMsg,
+      description: "",
+      style:{backgroundColor: bgColour},
+    })
   }
 
   async function handleSave(val: ToSaveFeature ) {
@@ -155,21 +177,36 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
             textColour = "#000";
           }
           else{
-            textColour = "#FFF"
+            textColour = "#FFF";
           }
-          return (<><Button key={feat.id} style={{
-                  backgroundColor: colour, 
-                  color: textColour, 
-                  margin: 10, 
-                  fontWeight: "bold", 
-                  borderRadius: 15, 
-                  fontSize: 15}}>{feat.name}</Button></>)
+          return (<>
+                    <Button key={feat.id} 
+                            onClick={()=>{mqttPublish(feat.topic, feat.value)}}
+                            style={{
+                            backgroundColor: colour, 
+                            color: textColour, 
+                            margin: 10, 
+                            fontWeight: "bold", 
+                            borderRadius: 15, 
+                            fontSize: 15}}>
+
+                      {feat.name}
+
+                    </Button>
+                  </>)
           break;
         case 2:
-          return <Switch key={feat.id} style={{backgroundColor: colour, margin: 10}}/>
+          return <Switch key={feat.id} 
+                         onChange={val=>{mqttPublish(feat.topic, switchMessage(feat.value, val))}} 
+                         style={{backgroundColor: colour, margin: 10}}/>
           break;
         case 3:
-          return <Slider key={feat.id}  style={{margin: 10}}/>
+          const range = setupSlider(feat.value);
+          const middle = Math.round((Number(range[0]) + Number(range[1]))/2);
+          return <Slider key={feat.id} 
+                         min={Number(range[0])} max={Number(range[1])} defaultValue={middle}
+                         onAfterChange={val=>{mqttPublish(feat.topic, sliderMessage(feat.value, val))}} 
+                         style={{margin: 10}}/>
           break;
         case 4:
           let buttonTextColour:string = ""
@@ -188,12 +225,17 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
           }
           return (<div style={{ display: "flex", flexDirection:"row", margin: 10}}>
                     <div style={{flex: 1}}>
-                      <StandardInput key={feat.id} label={feat.name} colour={inputTextColour}/></div>
-                        <Button key={feat.id} style={{
-                          backgroundColor: colour, 
-                          color: buttonTextColour, 
-                          borderRadius: 4, 
-                          }}>{feat.name}</Button></div>)
+                      <StandardInput key={feat.id} label={feat.name} onChange={setInputText} colour={inputTextColour} withoutLabel/>
+                    </div>
+                      <Button key={feat.id} 
+                              onClick={()=>{mqttPublish(feat.topic, inputText)}}
+                              style={{
+                                      backgroundColor: colour, 
+                                      color: buttonTextColour, 
+                                      borderRadius: 4, 
+                                      }}>{feat.name}
+                      </Button>
+                    </div>)
         default:
           return;
 
@@ -201,7 +243,14 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
     })
     return toAddFeats;
   }
-
+  const rgb = hexToRgb(colour)
+    let textColour:string = ""
+    if (rgb[0] + rgb[1] + rgb[2] > 500){
+      textColour = "#000";
+    }
+    else{
+      textColour = "#FFF";
+    }
   return (
     <div style={{
       marginLeft: 5,
@@ -238,6 +287,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
             fontWeight: 600,
             fontSize: "1.2rem",
             width: "calc(100% - 68px)",
+            color: textColour
 
           }}>{deviceTitle}</Typography>
 
@@ -257,15 +307,16 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
               spin={spinSettings}
               onMouseEnter={() => setSpin(!spinSettings)}
               onMouseLeave={() => setSpin(!spinSettings)}
+              style={{color: textColour}}
             />
 
-            <DeleteOutlined onClick={() => {}} style={{ marginLeft: 5}}/>
+            <DeleteOutlined onClick={() => {}} style={{ marginLeft: 5, color: textColour }}/>
           </span>
 
 
         </Header>
 
-        <div style={{ marginTop: 10 }}>
+        <div style={{ marginTop: 10, color: textColour }}>
           {handleCreateFeatures()}
         </div>
       </Card>
