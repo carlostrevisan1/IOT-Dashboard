@@ -87,7 +87,7 @@ export default function FeaturesModal(
         }
       case 2: {
 
-        const value = `${val.valueOn};${val.valueOFF}`;
+        const value = `${val.valueOn}Ḝ${val.valueOFF}`;
 
         toSave = {...val, value};
 
@@ -96,7 +96,7 @@ export default function FeaturesModal(
 
       case 3: {
 
-        const value = `${val.initialRange};${val.finalRange};${val.prefix};${val.sufix}`;
+        const value = `${val.initialRange}Ḝ${val.finalRange}Ḝ${val.prefix}Ḝ${val.sufix}`;
 
         toSave = {...val, value};
 
