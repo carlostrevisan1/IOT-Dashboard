@@ -6,7 +6,7 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import { Header } from 'antd/lib/layout/layout';
-import { EditFeatureSchema, FeaturesSchema, NewFeatureSchema } from '../../constants/device';
+import { DeviceItemsSchema, EditFeatureSchema, FeaturesSchema, NewFeatureSchema } from '../../constants/device';
 import StandardInput from '../StandardInput/StandardInput';
 import FeaturesModal from '../FeaturesModal/FeaturesModal';
 import { cursorTo } from 'readline';
@@ -16,6 +16,7 @@ import switchMessage from '../../utils/switchMessage';
 import setupSlider from '../../utils/setupSlider';
 import sliderMessage from '../../utils/sliderMessage';
 import { connect, MqttClient } from 'mqtt';
+import DeviceEditModal from '../DeviceEditModal/DeviceEditModal';
 
 type ToSaveFeature = {
   name: string,
@@ -34,11 +35,13 @@ type Props = {
   loadCards: () => void;
   brokerIp: string;
   brokerPort: string;
+  device: DeviceItemsSchema;
 }
 
-export default function StandardCard({ deviceTitle, features, colour, deviceId, loadCards, brokerIp, brokerPort}: Props) {
+export default function StandardCard({ deviceTitle, features, colour, deviceId, loadCards, brokerIp, brokerPort, device}: Props) {
 
-  const [showEditModal, setShowEditModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editDeviceModal, setEditDeviceModal] = useState(false);
   const [spinSettings, setSpin] = useState(false);
   const [inputText, setInputText] = useState("");
 
@@ -63,9 +66,9 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
   function mqttPublish(topic:string, message:string){
     mqttClient.publish(topic, message);
     const alertMsg = "Mesagem: '" + message + "' enviada";
-    const rgb = hexToRgb(colour)
+    const rgbColour = hexToRgb(colour)
     let bgColour:string = ""
-    if (rgb[0] + rgb[1] + rgb[2] > 500){
+    if (rgbColour[0] + rgbColour[1] + rgbColour[2] > 500){
       bgColour = "#1c1c1c";
     }
     else{
@@ -76,10 +79,17 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
       description: "",
       style:{backgroundColor: bgColour},
     })
+
+  function handleEditDevice(val: DeviceItemsSchema){
+    console.log(val);
+    setEditDeviceModal(false);
+  }
+
+  function handleDeleteDevice(){
+    console.log('delete')
   }
 
   async function handleSave(val: ToSaveFeature ) {
-    console.log(val)
 
     if(val.isEdit){
       const [feat_type] = val.feat_type
@@ -243,14 +253,16 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
     })
     return toAddFeats;
   }
+
   const rgb = hexToRgb(colour)
-    let textColour:string = ""
-    if (rgb[0] + rgb[1] + rgb[2] > 500){
-      textColour = "#000";
-    }
-    else{
-      textColour = "#FFF";
-    }
+  let textColour:string = ""
+  if (rgb[0] + rgb[1] + rgb[2] > 500){
+    textColour = "#000";
+  }
+  else{
+    textColour = "#FFF";
+  }
+  
   return (
     <div style={{
       marginLeft: 5,
@@ -297,8 +309,8 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
           }}>
 
             <EditOutlined 
-              onClick={() => {}}
-              style={{ marginRight: 5}} 
+              onClick={() => setEditDeviceModal(true)}
+              style={{ marginRight: 5, color: textColour }} 
             />
 
 
@@ -310,7 +322,7 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
               style={{color: textColour}}
             />
 
-            <DeleteOutlined onClick={() => {}} style={{ marginLeft: 5, color: textColour }}/>
+            <DeleteOutlined onClick={() => {handleDeleteDevice()}} style={{ marginLeft: 5, color: textColour }}/>
           </span>
 
 
@@ -328,6 +340,13 @@ export default function StandardCard({ deviceTitle, features, colour, deviceId, 
         handleSave={handleSave}
         features={features}
       />
+
+      <DeviceEditModal
+        device={device}
+        handleClose={() => { setEditDeviceModal(false)}}
+        handleSave={handleEditDevice}
+        visible={editDeviceModal}
+      />
     </div>
   );
-};
+}};

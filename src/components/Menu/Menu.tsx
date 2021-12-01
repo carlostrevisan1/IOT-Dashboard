@@ -12,14 +12,23 @@ import logo from "./ic_launcher.png"
 import { useHistory } from 'react-router-dom';
 import DeviceModal from '../DeviceModal/DeviceModal';
 import { DeviceItemsSchema, NewDeviceSchema } from '../../constants/device';
+import SettingsModal from '../SettingsModal/SettingsModal';
+
+type NewPass = {
+  nPass: string;
+  confirmPass: string;
+}
+
 
 type Props ={
   handleSaveDevice: (newDevice: NewDeviceSchema) => void;
+  handleSaveNewPass: (val : NewPass) => void;
 }
 
-export default function LateralMenu({handleSaveDevice} : Props){
+export default function LateralMenu({handleSaveDevice, handleSaveNewPass} : Props){
   
-  const [showDeviceModal, setShowDeviceModal] = useState(false)
+  const [showDeviceModal, setShowDeviceModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(['1'])
 
   let hist = useHistory();
@@ -31,9 +40,19 @@ export default function LateralMenu({handleSaveDevice} : Props){
 
   }
 
+  const handleCloseSettingsModal = () => {
+    setShowSettingsModal(false);
+    setSelectedMenu(['1']);
+  }
+
   const handleNewDeviceClick = () => {
     setShowDeviceModal(true);
     setSelectedMenu(['2']);
+  }
+
+  const handleSettingsPassClick = () => {
+    setShowSettingsModal(true);
+    setSelectedMenu(['3']);
   }
 
   return (
@@ -57,8 +76,7 @@ export default function LateralMenu({handleSaveDevice} : Props){
         </Menu.Item>
 
         <SubMenu key="sub1" icon={<SettingOutlined />} title="Settings">
-          <Menu.Item key="3">Option 3</Menu.Item>
-          <Menu.Item key="4">Option 4</Menu.Item>
+          <Menu.Item key="3" onClick={handleSettingsPassClick}>Alterar Senha</Menu.Item>
           {/* <SubMenu key="sub1-2" title="Submenu">
             <Menu.Item key="5">Option 5</Menu.Item>
             <Menu.Item key="6">Option 6</Menu.Item>
@@ -75,6 +93,11 @@ export default function LateralMenu({handleSaveDevice} : Props){
         visible={showDeviceModal} 
         handleClose={handleCloseDeviceModal}
         handleSave={handleSaveDevice}/>
+
+      <SettingsModal 
+        visible={showSettingsModal} 
+        handleClose={handleCloseSettingsModal}
+        handleSave={handleSaveNewPass}/>
     </div>
   );
 };
