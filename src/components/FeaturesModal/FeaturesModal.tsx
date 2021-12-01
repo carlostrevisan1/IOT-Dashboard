@@ -96,7 +96,7 @@ export default function FeaturesModal(
 
       case 3: {
 
-        const value = `${val.initialRange}Ḝ${val.finalRange}Ḝ${val.prefix}Ḝ${val.sufix}`;
+        const value = `${val.initialRange}Ḝ${val.finalRange}Ḝ${val.prefix ? val.prefix : ''}Ḝ${val.sufix ? val.sufix : ''}`;
 
         toSave = {...val, value};
 
